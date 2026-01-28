@@ -3,120 +3,120 @@
     "id": 1,
     "category": "career_goals",
     "question": "What are you looking for in your next role?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "First and foremost, I'm looking for a role that allows me to continue to grow and learn. I'm open to new challenges and opportunities to lead and mentor others. I'm also looking for a role that allows me to continue to work on interesting technical problems and to be part of a team that is passionate about what they do. I want to work with awesome people and develop awesome products that make a difference."
   },
   {
     "id": 2,
     "category": "career_goals",
     "question": "Where do you see yourself in 5 years?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "Designing, developing and fine tuning embodied AI, specifically advanced knowledge and memory systems."
   },
   {
     "id": 3,
     "category": "career_goals",
     "question": "Why are you open to new opportunities right now?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "I'm not actively looking but I'm open to new opportunities if the right one comes along."
   },
   {
     "id": 4,
     "category": "strengths",
     "question": "What is your greatest strength?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "I'll give you two: 1) leadership and mentorship and 2) being able to take a complex problem and break it down into smaller, more manageable parts."
   },
   {
     "id": 5,
     "category": "strengths",
     "question": "What sets you apart from other candidates?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "Objectively speaking, I'm not the most technically skilled candidate in the room. However, I'm the most technically curious candidate in the room. I'm a retired Army officer that's working on a doctorate, with multiple post-graduate certificates and sixteen professional and technical certifications."
   },
   {
     "id": 6,
     "category": "leadership",
     "question": "Describe your leadership style.",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "I'm a servant leader. I love to help people grow and develop their skills. I'm a big believer in servant leadership and that the best way to lead is to help others reach their full potential."
   },
   {
     "id": 7,
     "category": "leadership",
     "question": "How do you handle conflict on your team?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "Communication. I also think that being able to take a step back and look at the big picture is important. I also recognize that if I'm responsible for a decision, I need to be able to own it and take responsibility for it."
   },
   {
     "id": 8,
     "category": "leadership",
     "question": "Tell me about a time you had to make a difficult decision.",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "When modernizing the BLCSE OneSAF system, I had to make the decision to move from a legacy system to a modern system. I had to make the decision to move, force the move to Kubernetes and Docker against the opinion of my engineering team."
   },
   {
     "id": 9,
     "category": "technical",
     "question": "How do you stay current with emerging technologies?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "School. I read a lot - books, articles, papers. I have lots of discussions with AI. I'm always asking questions and seeking answers."
   },
   {
     "id": 10,
     "category": "technical",
     "question": "What's your approach to evaluating new AI/ML technologies for enterprise use?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "I'll keep this short: what's the business problem? What's the technical problem? What data is on-hand?"
   },
   {
     "id": 11,
     "category": "technical",
     "question": "How do you balance innovation with security in classified environments?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "Understanding what risk really is, the probability of the risk occurring, the impact of the risk, and the controls in place to mitigate the risk. I think it's important to design security into the system from the beginning."
   },
   {
     "id": 12,
     "category": "projects",
     "question": "Tell me about a challenging project you've worked on.",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "I'm working on a system project that includes hardware, software, and network components. It's a complex system that includes a lot of different technologies and disciplines. A large chunk of the software is an AI-enabled architecture that includes Kalman filters, a feedforward neural network but also requiring a deep understanding of the sensor technologies and their message formats."
   },
   {
     "id": 13,
     "category": "projects",
     "question": "Describe a project where you had to recover a failing program.",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "When modernizing the BLCSE OneSAF system, I had to recover a failing program. I had to make the decision to force radical change, beginning with a focus on government deliverables. Once that foundation was set I had to force modernization in an organization that had essentially remained unchanged for two decades."
   },
   {
     "id": 14,
     "category": "projects",
     "question": "What's the most innovative solution you've architected?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "I think the STE was the most innovative because it was the most disruptive change to the way the Army does business. It was a complete transformation of the way the Army does business. It was a complete transformation of the way the Army does business. It was a complete transformation of the way the Army delivers collective training."
   },
   {
     "id": 15,
     "category": "culture",
     "question": "What kind of company culture do you thrive in?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "I like casual, professional. I also think it's important to be supportive of each other. Leadership is important. Teamwork is important. We're all in this together."
   },
   {
     "id": 16,
     "category": "culture",
     "question": "How do you approach mentoring junior engineers?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "It's a relationship thing. You have to start with trust, respect and understand that their goals are not my goals."
   },
   {
     "id": 17,
     "category": "challenges",
     "question": "What's been the biggest challenge in your career?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "Understanding how to navigate the political landscape of the Army and the Joint Staff and how to influence decisions and recognizing different incentives and motivations."
   },
   {
     "id": 18,
     "category": "challenges",
     "question": "Tell me about a time you failed and what you learned.",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "On the Joint Staff I had to ship over one-hundred laptops to Germany overnight. I was counting on two cybersecurity personnel, one in the Joint Staff and another in Germany to get work done. They didn't so I had to ship the laptops. I was responsible to the problem and cost was mine; but, because I was ignorant I didn't realize it wasn't likely that they'd get the work done nor could I explain the issue to my senior executive leadership. So I learned that I can no longer be technically ignorant. That's when I started learning tech."
   },
   {
     "id": 19,
     "category": "motivation",
     "question": "What motivates you professionally?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "Learning and growing. A good, supportive team environment. A role that allows me to make a difference."
   },
   {
     "id": 20,
     "category": "motivation",
     "question": "Why did you transition from military to private sector?",
-    "answer": "YOUR_ANSWER_HERE"
+    "answer": "I retired. If I had stayed in, I would have been a Colonel by now. But that would have meant another PCS move, a year away from my family to attend the War College and likely another year away on a deployment. And truthfully, none of the Colonel positions interested me. I would have really locked myself into the Army for another eight years, trading prestige - the rank - for professioanl growth."
   }
 ]
