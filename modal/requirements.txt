@@ -1,0 +1,7 @@
+modal
+torch
+transformers
+accelerate
+fastapi
+pydantic
+uvicorn

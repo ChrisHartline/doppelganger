@@ -1,0 +1,24 @@
+# Chris Hartline - Professional Resume
+
+## Summary
+[Add your professional summary here. This will be used by the AI to understand your background and respond to questions about you.]
+
+Example:
+Experienced software engineer with X years of experience in full-stack development, specializing in [technologies]. Passionate about building innovative solutions and working with cutting-edge technology.
+
+## Experience
+[Add your work experience here]
+
+### Company Name - Job Title (Year - Year)
+- Key achievement 1
+- Key achievement 2
+- Technologies used: [list]
+
+## Education
+[Add your education here]
+
+## Certifications
+[Add any certifications]
+
+## Contact
+[Your professional contact information]
