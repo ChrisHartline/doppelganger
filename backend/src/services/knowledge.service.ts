@@ -95,6 +95,41 @@ class KnowledgeService {
     return null
   }
 
+  async getContacts(): Promise<Record<string, unknown> | null> {
+    try {
+      const contactsPath = path.join(KNOWLEDGE_DIR, 'contacts.json')
+      if (fs.existsSync(contactsPath)) {
+        return JSON.parse(fs.readFileSync(contactsPath, 'utf-8'))
+      }
+    } catch (error) {
+      console.error('Failed to load contacts:', error)
+    }
+    return null
+  }
+
+  findContact(name: string, email?: string): Record<string, unknown> | null {
+    try {
+      const contactsPath = path.join(KNOWLEDGE_DIR, 'contacts.json')
+      if (!fs.existsSync(contactsPath)) return null
+
+      const data = JSON.parse(fs.readFileSync(contactsPath, 'utf-8'))
+      const contacts = data.contacts || []
+      const lowerName = name.toLowerCase()
+
+      for (const contact of contacts) {
+        // Check name match
+        if (contact.name?.toLowerCase() === lowerName) return contact
+        // Check aliases
+        if (contact.aliases?.some((a: string) => a.toLowerCase() === lowerName)) return contact
+        // Check email
+        if (email && contact.email?.toLowerCase() === email.toLowerCase()) return contact
+      }
+    } catch (error) {
+      console.error('Failed to find contact:', error)
+    }
+    return null
+  }
+
   async updateResume(content: string): Promise<void> {
     const resumePath = path.join(KNOWLEDGE_DIR, 'resume.txt')
 

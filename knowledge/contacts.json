@@ -1,0 +1,40 @@
+{
+  "description": "Known contacts for personalized interactions. When someone identifies as a known contact, the AI adjusts tone and references shared experiences.",
+  "contacts": [
+    {
+      "id": "example-contact",
+      "name": "Example Contact",
+      "aliases": ["Example", "Ex"],
+      "email": "example@company.com",
+      "company": "Example Company",
+      "relationship": "colleague",
+      "context": "Where/how you worked together",
+      "years_known": "2019-2024",
+      "shared_experiences": [
+        "Project or experience 1",
+        "Project or experience 2"
+      ],
+      "tone": "friendly, informal",
+      "notes": "Any personal notes - good friend, mentor relationship, etc.",
+      "can_schedule_directly": true
+    }
+  ],
+  "relationship_types": {
+    "colleague": "Worked together directly",
+    "manager": "They managed you",
+    "direct_report": "You managed them",
+    "mentor": "Mentorship relationship",
+    "peer": "Same level, different team",
+    "client": "Client relationship",
+    "vendor": "Vendor relationship",
+    "military": "Military service connection",
+    "academic": "School/academic connection",
+    "friend": "Personal friend"
+  },
+  "tone_options": {
+    "formal": "Professional, courteous",
+    "friendly": "Warm but professional",
+    "informal": "Casual, first-name basis",
+    "enthusiastic": "Excited to reconnect"
+  }
+}
