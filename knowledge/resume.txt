@@ -1,24 +1,140 @@
-# Chris Hartline - Professional Resume
+Christopher Hartline
+Lenexa, KS | 913-274-8862 | chris.hartline.99@gmail.com
+LinkedIn: http://www.linkedin.com/in/chrishartline
+GitHub: https://github.com/ChrisHartline
+HuggingFace: https://huggingface.co/ChrisSacrumCor
 
-## Summary
-[Add your professional summary here. This will be used by the AI to understand your background and respond to questions about you.]
+Chief Technology Officer (CTO)
 
-Example:
-Experienced software engineer with X years of experience in full-stack development, specializing in [technologies]. Passionate about building innovative solutions and working with cutting-edge technology.
+Visionary technologist and servant leader with extensive experience in solving mission-critical organizational problems through technology, translating ambiguous executive intent into scalable AI, cloud, and enterprise architectures across classified environments.
 
-## Experience
-[Add your work experience here]
+Credible history of developing and implementing AI-enabled systems, directing multi-cloud strategies across AWS, Azure, and GCP, guiding modernization from legacy infrastructure to cloud-native platforms. Recognized for recovering failing technical programs, designing patent-pending architectures, delivering alternative PNT and simulation solutions, and aligning system performance with extreme SWaP constraints. Track record of leading servant-based technical organizations, mentoring senior engineers, scaling teams and capabilities, promoting talent. Proven expertise in executive advisory, agentic AI, data engineering, and decision-support systems, integrating LLMs, RAG, and multi-agent frameworks to advance secure automation and enterprise intelligence.
 
-### Company Name - Job Title (Year - Year)
-- Key achievement 1
-- Key achievement 2
-- Technologies used: [list]
+AREAS OF EXPERTISE
+- Enterprise Technology Strategy & Architecture
+- Digital Modernization & Legacy Transformation
+- Software Architecture & Platform Engineering
+- Cybersecurity, Risk Management & Compliance
+- Secure Systems Engineering
+- Technical Program Leadership
+- AI & Machine Learning Systems
+- Data Engineering & Analytics
+- Cloud & Multi-Cloud Architecture
+- DevOps, CI/CD & Cloud-Native Delivery
+- Systems Integration & Interoperability
+- Agentic AI & Multi-Agent Frameworks
 
-## Education
-[Add your education here]
+PROFESSIONAL EXPERIENCE
 
-## Certifications
-[Add any certifications]
+Principal AI Architect | COLVIN RUN NETWORKS | Lenexa, KS (Remote) | 09/2025 – Present
+Boutique AI, cloud, and systems engineering firm delivering advanced analytics and mission-focused technology solutions to U.S. defense.
 
-## Contact
-[Your professional contact information]
+- Develop enterprise-grade AI and multi-cloud solutions for Department of Defense programs, translating mission requirements into secure, scalable system designs supporting operational resilience
+- Design agentic AI frameworks, sensor fusion pipelines, and cloud abstraction layers, aligning advanced analytics, machine learning models, and infrastructure automation with classified constraints
+- Advise government stakeholders and internal leadership on technical strategy, solution feasibility, and requirements engineering
+
+Key Achievements:
+- Achieved $3.2M contract acceleration by architecting an alternative Precision Navigation and Timing capability for joint hypersonic vehicle programs, compressing a three-year delivery timeline to two years through AI-enabled system design
+- Delivered $2M annual cost avoidance by designing a secure multi-cloud abstraction layer enabling smooth workload portability across Azure, Google Cloud, and AWS without additional staffing
+- Secured patent filing initiation by inventing novel sensor fusion architecture combining Enhanced Kalman Filters, Feed-Forward Neural Networks, and Hyperdimensional Deterministic Uncertainty Models under extreme SWaP constraints
+- Established cross-cloud interoperability through AI-enabled orchestration and secure interconnect design
+- Enabled autonomous enterprise workflows by implementing agent-based AI systems integrated with infrastructure tooling
+
+Exponential Technology Consultant (Architect) and Strategy | SACRUM COR | Lenexa, KS | 04/2024 – 09/2025
+Independent technology consultancy providing AI architecture, cloud strategy, and emerging technology advisory services to small businesses.
+
+- Advised small organizations on AI and cloud adoption strategies
+- Architected machine learning, LLM, and agent-based solutions across Azure-centered environments
+- Supported government-adjacent technology initiatives
+
+Key Achievements:
+- Built a hybrid LLM solution by deploying a fine-tuned, RAG-enabled assistant ("Augie") for domain-specific knowledge interaction
+- Delivered Azure-based RAG LLM for DoD simulation planning
+- Produced JCIDS capability prototypes by architecting agent-based Azure tooling
+- Advanced autonomous administration concepts by developing SysAdmin assistant leveraging LangChain, CloudFormation, Linux, OpenShift, and Ansible via MCP frameworks
+
+Technical Program Manager & Chief Engineer | VALIANT INTEGRATED SERVICES | Newport News, VA / Lenexa, KS | 01/2019 – 03/2024
+Government services provider supporting U.S. defense organizations with technical, logistics, and operational solutions.
+
+- Directed dual-role technical program management and chief engineering functions for Army Futures Command programs
+- Managed end-to-end system architecture across infrastructure, networks, simulation platforms, and software engineering teams
+- Led workforce planning, performance management, and stakeholder engagement
+
+Key Achievements:
+- Increased system uptime by 48% by transitioning from legacy 1990s infrastructure to modern hosting architectures
+- Delivered $13M enterprise modernization execution by leading distributed simulation system transformation for Army Futures Command
+- Boosted annual contract value by $600K through capability modernization
+- Reduced system recovery time from 32 minutes to 24 seconds through hosting redesign
+- Achieved NIST RMF accreditation through cybersecurity alignment
+- Led a 14-person technical organization by mentoring engineers and applying Agile practices
+
+Senior Principal Simulation Engineer | Alion Science & Technology | Suffolk, VA | 11/2018 – 01/2019
+- Provided senior-level simulation engineering expertise for defense programs
+- Collaborated with engineering teams to evaluate architectural options and mitigate technical risk
+- Advised program leadership on simulation system design considerations
+
+Senior Staff Advanced Modeling, Simulation & Technical Architect | Northrop Grumman | Suffolk, VA | 06/2018 – 11/2018
+- Delivered senior technical leadership for advanced modeling and simulation initiatives
+- Oversaw multiple Independent Research and Development (IRAD) efforts
+- Advised six IRAD programs valued at up to $6M
+
+Director, West Point Simulation Center | United States Military Academy | West Point, NY | 08/2016 – 06/2018
+- Directed operations and strategic planning for the academy simulation center
+- Led multidisciplinary teams across engineering, simulation, and academic partners
+- Doubled center size and capability
+- Integrated commercial VR/AR technologies (contracts valued at $450K)
+
+Principal Simulation Architect & Integration Officer | US Army National Simulation Center | 08/2013 – 08/2016
+- Architected enterprise-scale military simulation frameworks using DoDAF, ICDs, CDDs, and CPDs
+- Advanced billion-dollar Synthetic Training Environment program
+- Served as technical advisor to two Chiefs of Staff of the Army's priority efforts
+
+Principal Simulation Engineer / Integration Officer & Project Manager | The Joint Staff | 08/2010 – 08/2013
+- Led modernization initiatives for joint training and simulation capabilities
+- Executed 12 globally distributed Combatant Command events
+- Led Joint Live Virtual Constructive modernization effort as Chief Architect
+- Drafted congressional-facing modernization materials for HASC and CJCS
+
+Early Career: Armor Officer / Modeling and Simulation Officer, United States Army
+
+EDUCATION
+
+Old Dominion University | Doctor of Engineering (D.Eng.), Modeling and Simulation (In Progress)
+- High Performance and Distributed Computing
+- Machine Learning
+- Artificial Intelligence Program and Operations Management
+
+University of Texas, McCombs School of Business | Graduate Program, AI and Machine Learning
+- Linear Regression, Classification and Clustering, Ensemble Modeling and XGBoost
+- Decision Trees, Model Evaluation and Tuning, Transformers (TensorFlow)
+
+University of New Mexico | Continuing Education, Large Language Models (LLM)
+- Embeddings and Tokenization, Custom LLM Pretraining and Fine-Tuning
+- Vector Databases, RAG, Transformers and Attention, Prompt Engineering
+- LangChain, Agent Frameworks
+
+Old Dominion University | Master of Science, Modeling and Simulation
+- Discrete Event Simulation, Systems Engineering, System Architecting
+- Agent-Based Systems and Simulation, Combat Modeling
+
+United States Army Command and General Staff College | Leadership and Strategy Program
+
+Webster University | Master of Arts, Management and Leadership
+
+CERTIFICATIONS (All Current)
+- Project Management Professional (PMP)
+- Microsoft Azure AI Engineer Associate (AI-102)
+- Microsoft Azure Administrator Associate (AZ-104)
+- Microsoft Azure Solutions Architect Expert (AZ-305)
+- Amazon Web Services (AWS) Developer – Associate
+- Amazon Web Services (AWS) Solutions Architect – Associate
+- Google Cloud Associate Cloud Engineer
+- Databricks Foundations
+- CompTIA Security+
+- CompTIA Network+
+- CompTIA Cloud+
+- ITIL v4 Foundation
+- Hugging Face Agents Certification
+- Google Large Language Models and AI Skill Badges
+
+Army Skill Identifiers (ASI): 6Z Strategist | 3J Joint Firepower/Targeting | 5J Joint Planner

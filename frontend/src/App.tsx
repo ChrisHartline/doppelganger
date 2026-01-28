@@ -126,7 +126,7 @@ function App() {
             {/* Avatar Section */}
             <div className="lg:col-span-1 flex flex-col items-center space-y-4">
               <AvatarDisplay
-                avatarUrl="/avatar.jpg"
+                avatarUrl="/avatar.png"
                 videoUrl={videoUrl || undefined}
                 isPlaying={isPlayingVideo}
                 isSpeaking={isSpeaking}

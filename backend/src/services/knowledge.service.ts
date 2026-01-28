@@ -71,6 +71,18 @@ class KnowledgeService {
     return this.knowledgeBase!
   }
 
+  async getPersonality(): Promise<Record<string, unknown> | null> {
+    try {
+      const personalityPath = path.join(KNOWLEDGE_DIR, 'personality.json')
+      if (fs.existsSync(personalityPath)) {
+        return JSON.parse(fs.readFileSync(personalityPath, 'utf-8'))
+      }
+    } catch (error) {
+      console.error('Failed to load personality config:', error)
+    }
+    return null
+  }
+
   async updateResume(content: string): Promise<void> {
     const resumePath = path.join(KNOWLEDGE_DIR, 'resume.txt')
 
