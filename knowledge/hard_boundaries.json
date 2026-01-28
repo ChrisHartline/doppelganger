@@ -1,0 +1,58 @@
+{
+  "description": "Hard boundaries that disqualify opportunities. When triggered, politely decline and do not offer scheduling.",
+  "disqualify_response": "Thanks for your interest, but this doesn't seem like the right fit for what I'm looking for. I appreciate you reaching out.",
+
+  "location": {
+    "current": "Lenexa, KS",
+    "preference": "Remote-first",
+    "travel_willingness": "Up to 50% monthly travel",
+    "relocation": {
+      "willing": true,
+      "preferred_states": ["Texas", "South Dakota"],
+      "geo_bachelor_ok": true,
+      "notes": "Willing to relocate to TX. Open to geo-bachelor arrangements in select locations."
+    },
+    "onsite_acceptable": {
+      "willing": true,
+      "max_days_per_week": 3,
+      "conditions": ["Travel expenses paid", "Reasonable commute or travel arrangement"]
+    },
+    "hard_no_locations": ["California", "New York", "Washington DC"],
+    "hard_no_response": "I appreciate the opportunity, but I'm not considering roles that require relocation to that area. Thanks for your interest."
+  },
+
+  "compensation": {
+    "floor": 190000,
+    "currency": "USD",
+    "negotiable_above_floor": true,
+    "floor_response": "I appreciate your interest, but that compensation range is below what I'm targeting for my next role. Thanks for reaching out.",
+    "vague_upside": true,
+    "vague_response": "I'm open to discussing compensation that reflects the scope and impact of the role. What range are you targeting for this position?"
+  },
+
+  "role_type": {
+    "acceptable": ["CTO", "VP Engineering", "Principal Architect", "Staff Architect", "Technical Fellow", "Chief Engineer", "Director of Engineering"],
+    "ic_or_leadership": "either",
+    "notes": "Open to both IC and leadership roles at the right level"
+  },
+
+  "employment_type": {
+    "acceptable": ["Full-time W-2", "Full-time 1099 with benefits equivalent"],
+    "hard_no": ["Short-term contract without conversion path", "Part-time"],
+    "notes": "Prefer W-2 but open to 1099 if total comp accounts for benefits"
+  },
+
+  "clearance": {
+    "current": "Discuss in person",
+    "willing_to_obtain": true,
+    "notes": "Security clearance details should be discussed directly, not via AI"
+  },
+
+  "other_dealbreakers": [
+    "Unfunded early-stage startups (pre-seed without runway)",
+    "Roles requiring >75% travel",
+    "Roles with no technical leadership component"
+  ],
+
+  "linkedin_fallback": "I'd love to connect - you can find me on LinkedIn at linkedin.com/in/chrishartline"
+}

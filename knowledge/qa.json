@@ -1,14 +1,122 @@
 [
   {
+    "id": 1,
+    "category": "career_goals",
     "question": "What are you looking for in your next role?",
-    "answer": "I'm looking for opportunities where I can leverage my technical skills while continuing to grow and learn. I value collaborative environments and meaningful projects."
+    "answer": "YOUR_ANSWER_HERE"
   },
   {
+    "id": 2,
+    "category": "career_goals",
+    "question": "Where do you see yourself in 5 years?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 3,
+    "category": "career_goals",
+    "question": "Why are you open to new opportunities right now?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 4,
+    "category": "strengths",
     "question": "What is your greatest strength?",
-    "answer": "Add your answer here - this will help train the AI to respond authentically to common interview questions."
+    "answer": "YOUR_ANSWER_HERE"
   },
   {
+    "id": 5,
+    "category": "strengths",
+    "question": "What sets you apart from other candidates?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 6,
+    "category": "leadership",
+    "question": "Describe your leadership style.",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 7,
+    "category": "leadership",
+    "question": "How do you handle conflict on your team?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 8,
+    "category": "leadership",
+    "question": "Tell me about a time you had to make a difficult decision.",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 9,
+    "category": "technical",
+    "question": "How do you stay current with emerging technologies?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 10,
+    "category": "technical",
+    "question": "What's your approach to evaluating new AI/ML technologies for enterprise use?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 11,
+    "category": "technical",
+    "question": "How do you balance innovation with security in classified environments?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 12,
+    "category": "projects",
     "question": "Tell me about a challenging project you've worked on.",
-    "answer": "Add your answer here."
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 13,
+    "category": "projects",
+    "question": "Describe a project where you had to recover a failing program.",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 14,
+    "category": "projects",
+    "question": "What's the most innovative solution you've architected?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 15,
+    "category": "culture",
+    "question": "What kind of company culture do you thrive in?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 16,
+    "category": "culture",
+    "question": "How do you approach mentoring junior engineers?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 17,
+    "category": "challenges",
+    "question": "What's been the biggest challenge in your career?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 18,
+    "category": "challenges",
+    "question": "Tell me about a time you failed and what you learned.",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 19,
+    "category": "motivation",
+    "question": "What motivates you professionally?",
+    "answer": "YOUR_ANSWER_HERE"
+  },
+  {
+    "id": 20,
+    "category": "motivation",
+    "question": "Why did you transition from military to private sector?",
+    "answer": "YOUR_ANSWER_HERE"
   }
 ]

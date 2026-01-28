@@ -83,6 +83,18 @@ class KnowledgeService {
     return null
   }
 
+  async getHardBoundaries(): Promise<Record<string, unknown> | null> {
+    try {
+      const boundariesPath = path.join(KNOWLEDGE_DIR, 'hard_boundaries.json')
+      if (fs.existsSync(boundariesPath)) {
+        return JSON.parse(fs.readFileSync(boundariesPath, 'utf-8'))
+      }
+    } catch (error) {
+      console.error('Failed to load hard boundaries:', error)
+    }
+    return null
+  }
+
   async updateResume(content: string): Promise<void> {
     const resumePath = path.join(KNOWLEDGE_DIR, 'resume.txt')
 

@@ -13,8 +13,10 @@ import emailRoutes from './routes/email.routes'
 import profileRoutes from './routes/profile.routes'
 import qualificationRoutes from './routes/qualification.routes'
 import avatarRoutes from './routes/avatar.routes'
+import logsRoutes from './routes/logs.routes'
 import { knowledgeService } from './services/knowledge.service'
 import { llmService } from './services/llm.service'
+import { conversationLogService } from './services/conversation-log.service'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -38,6 +40,7 @@ app.use('/api/email', emailRoutes)
 app.use('/api/profile', profileRoutes)
 app.use('/api/qualification', qualificationRoutes)
 app.use('/api/avatar', avatarRoutes)
+app.use('/api/logs', logsRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -53,13 +56,15 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 // Initialize services and start server
 async function start() {
   try {
-    // Initialize knowledge base
+    // Initialize services
     await knowledgeService.initialize()
     await llmService.initialize()
+    await conversationLogService.initialize()
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`)
       console.log(`API available at http://localhost:${PORT}/api`)
+      console.log(`Conversation logs available at http://localhost:${PORT}/api/logs`)
     })
   } catch (error) {
     console.error('Failed to start server:', error)
