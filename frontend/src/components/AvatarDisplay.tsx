@@ -8,6 +8,7 @@ interface AvatarDisplayProps {
   isPlaying: boolean
   isSpeaking: boolean
   fallbackInitials: string
+  onVideoEnded?: () => void
 }
 
 export function AvatarDisplay({
@@ -16,6 +17,7 @@ export function AvatarDisplay({
   isPlaying,
   isSpeaking,
   fallbackInitials,
+  onVideoEnded,
 }: AvatarDisplayProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [showVideo, setShowVideo] = useState(false)
@@ -29,6 +31,7 @@ export function AvatarDisplay({
 
   const handleVideoEnded = () => {
     setShowVideo(false)
+    onVideoEnded?.()
   }
 
   return (

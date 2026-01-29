@@ -1,8 +1,9 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { AvatarDisplay } from '@/components/AvatarDisplay'
 import { ChatInterface } from '@/components/ChatInterface'
 import { QualificationProgress } from '@/components/QualificationProgress'
 import { AppointmentBooking } from '@/components/AppointmentBooking'
+import { StatusBar, type ResponseStatus } from '@/components/StatusBar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { api } from '@/services/api'
 import type { Message, ConversationState } from '@/types'
@@ -20,8 +21,17 @@ function App() {
   const [isPlayingVideo, setIsPlayingVideo] = useState(false)
   const [showBooking, setShowBooking] = useState(false)
   const [bookingConfirmation, setBookingConfirmation] = useState<string | null>(null)
+  const [responseStatus, setResponseStatus] = useState<ResponseStatus>('idle')
+  const [audioEnabled, setAudioEnabled] = useState(true)
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null)
 
   const handleSendMessage = useCallback(async (content: string) => {
+    // Stop any currently playing audio
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause()
+      currentAudioRef.current = null
+    }
+
     const userMessage: Message = {
       id: crypto.randomUUID(),
       role: 'user',
@@ -35,9 +45,13 @@ function App() {
     }))
 
     setIsLoading(true)
+    setResponseStatus('thinking')
+    setVideoUrl(null) // Clear previous video
 
     try {
+      // Step 1: Get text response (fast)
       const response = await api.sendMessage(content, conversationState.messages)
+      setResponseStatus('responding')
 
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
@@ -54,17 +68,54 @@ function App() {
         canBookAppointment: response.isQualified,
       }))
 
-      // Generate video response with D-ID
-      setIsSpeaking(true)
+      setIsLoading(false)
+
+      // Step 2: Stream audio (fast, ~500ms-1s with streaming)
+      if (audioEnabled) {
+        setResponseStatus('speaking')
+        setIsSpeaking(true)
+        try {
+          const audio = await api.streamAudio(response.reply)
+          currentAudioRef.current = audio
+
+          audio.onended = () => {
+            setIsSpeaking(false)
+            currentAudioRef.current = null
+            // If video is ready, show video_ready status, otherwise complete
+            setResponseStatus((prev) => prev === 'video_ready' ? 'video_ready' : 'complete')
+          }
+
+          audio.onerror = () => {
+            console.error('Audio playback failed')
+            setIsSpeaking(false)
+            currentAudioRef.current = null
+            setResponseStatus('complete')
+          }
+
+          await audio.play()
+        } catch (audioError) {
+          console.error('Audio streaming failed:', audioError)
+          setIsSpeaking(false)
+          setResponseStatus('complete')
+        }
+      }
+
+      // Step 3: Generate video in background (slow, 5-30s)
+      // This runs concurrently with audio playback
       try {
+        setResponseStatus((prev) => prev === 'speaking' ? prev : 'video_generating')
         const videoResponse = await api.generateVideo(response.reply)
         setVideoUrl(videoResponse.videoUrl)
-        setIsPlayingVideo(true)
+        // Only update status if not still speaking
+        setResponseStatus((prev) => {
+          if (prev === 'speaking') return 'speaking' // Let audio completion handle it
+          return 'video_ready'
+        })
       } catch (videoError) {
         console.error('Video generation failed:', videoError)
-      } finally {
-        setIsSpeaking(false)
-        setIsPlayingVideo(false)
+        // Video is optional, don't fail the whole flow
+        // Only mark complete if not still speaking
+        setResponseStatus((prev) => prev === 'speaking' ? prev : 'complete')
       }
     } catch (error) {
       console.error('Failed to send message:', error)
@@ -78,10 +129,11 @@ function App() {
         ...prev,
         messages: [...prev.messages, errorMessage],
       }))
+      setResponseStatus('idle')
     } finally {
       setIsLoading(false)
     }
-  }, [conversationState.messages])
+  }, [conversationState.messages, audioEnabled])
 
   const handleBookAppointment = () => {
     setShowBooking(true)
@@ -91,6 +143,23 @@ function App() {
     setBookingConfirmation(confirmationId)
     setShowBooking(false)
   }
+
+  const handlePlayVideo = useCallback(() => {
+    if (videoUrl) {
+      // Stop audio if playing
+      if (currentAudioRef.current) {
+        currentAudioRef.current.pause()
+        currentAudioRef.current = null
+        setIsSpeaking(false)
+      }
+      setIsPlayingVideo(true)
+      setResponseStatus('complete')
+    }
+  }, [videoUrl])
+
+  const handleVideoEnded = useCallback(() => {
+    setIsPlayingVideo(false)
+  }, [])
 
   return (
     <div className="min-h-screen bg-background">
@@ -131,6 +200,12 @@ function App() {
                 isPlaying={isPlayingVideo}
                 isSpeaking={isSpeaking}
                 fallbackInitials="CH"
+                onVideoEnded={handleVideoEnded}
+              />
+              <StatusBar
+                status={responseStatus}
+                onPlayVideo={handlePlayVideo}
+                className="w-full"
               />
               <QualificationProgress
                 score={conversationState.qualificationScore}

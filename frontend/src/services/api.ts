@@ -77,6 +77,45 @@ class ApiService {
       body: JSON.stringify({ conversationHistory }),
     })
   }
+
+  async getAudioStatus(): Promise<{ configured: boolean; voiceId: string | null }> {
+    return this.fetch('/audio/status')
+  }
+
+  async streamAudio(text: string): Promise<HTMLAudioElement> {
+    // Create audio element and stream from backend
+    const response = await fetch(`${API_BASE_URL}/audio/stream`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ text }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to stream audio')
+    }
+
+    const blob = await response.blob()
+    const audioUrl = URL.createObjectURL(blob)
+    const audio = new Audio(audioUrl)
+
+    // Clean up URL when audio ends
+    audio.onended = () => {
+      URL.revokeObjectURL(audioUrl)
+    }
+
+    return audio
+  }
+
+  async generateVideoInBackground(text: string): Promise<string> {
+    // Start video generation and return task ID for polling
+    const response = await this.fetch<{ taskId: string }>('/video/generate', {
+      method: 'POST',
+      body: JSON.stringify({ text }),
+    })
+    return response.taskId
+  }
 }
 
 export const api = new ApiService()

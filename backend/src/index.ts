@@ -8,6 +8,7 @@ dotenv.config({ path: path.join(__dirname, '../../.env') })
 
 import chatRoutes from './routes/chat.routes'
 import videoRoutes from './routes/video.routes'
+import audioRoutes from './routes/audio.routes'
 import calendarRoutes from './routes/calendar.routes'
 import emailRoutes from './routes/email.routes'
 import profileRoutes from './routes/profile.routes'
@@ -35,6 +36,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 // API Routes
 app.use('/api/chat', chatRoutes)
 app.use('/api/video', videoRoutes)
+app.use('/api/audio', audioRoutes)
 app.use('/api/calendar', calendarRoutes)
 app.use('/api/email', emailRoutes)
 app.use('/api/profile', profileRoutes)
