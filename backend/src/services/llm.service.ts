@@ -1,8 +1,10 @@
-import axios from 'axios'
+import Anthropic from '@anthropic-ai/sdk'
 import type { Message, KnowledgeBase } from '../types'
 import { knowledgeService } from './knowledge.service'
 
-const MODAL_ENDPOINT = process.env.MODAL_ENDPOINT || 'http://localhost:8000'
+const anthropic = process.env.CLAUDE_API_KEY
+  ? new Anthropic({ apiKey: process.env.CLAUDE_API_KEY })
+  : null
 
 interface Personality {
   name: string
@@ -52,21 +54,29 @@ class LLMService {
     const messages = this.buildMessages(conversationHistory, message)
 
     try {
-      // Try Modal endpoint first (TinyLlama)
-      console.log(`Calling Modal endpoint: ${MODAL_ENDPOINT}/generate`)
-      const response = await axios.post(`${MODAL_ENDPOINT}/generate`, {
-        system_prompt: systemPrompt,
-        messages,
+      if (!anthropic) {
+        console.log('Claude API key not configured, using fallback')
+        return this.fallbackResponse(message)
+      }
+
+      console.log('Calling Claude API...')
+      const response = await anthropic.messages.create({
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 500,
-        temperature: 0.7,
-      }, {
-        timeout: 120000, // 2 minute timeout for cold starts
+        system: systemPrompt,
+        messages: messages.map(msg => ({
+          role: msg.role as 'user' | 'assistant',
+          content: msg.content,
+        })),
       })
 
-      console.log('Modal response received successfully')
-      return response.data.response
+      const textContent = response.content.find(block => block.type === 'text')
+      const reply = textContent ? textContent.text : this.fallbackResponse(message)
+
+      console.log('Claude response received successfully')
+      return reply
     } catch (error: any) {
-      console.error('Modal LLM request failed:', error.message || error)
+      console.error('Claude API request failed:', error.message || error)
       console.log('Using fallback response instead')
       return this.fallbackResponse(message)
     }
