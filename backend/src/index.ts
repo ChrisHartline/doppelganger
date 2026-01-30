@@ -22,9 +22,12 @@ import { conversationLogService } from './services/conversation-log.service'
 const app = express()
 const PORT = process.env.PORT || 3001
 
-// Middleware
+// Middleware - allow multiple local ports for development
+const allowedOrigins = process.env.FRONTEND_URL
+  ? [process.env.FRONTEND_URL]
+  : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176']
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
 }))
 app.use(express.json())
