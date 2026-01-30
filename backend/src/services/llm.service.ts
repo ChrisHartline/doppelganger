@@ -53,16 +53,21 @@ class LLMService {
 
     try {
       // Try Modal endpoint first (TinyLlama)
+      console.log(`Calling Modal endpoint: ${MODAL_ENDPOINT}/generate`)
       const response = await axios.post(`${MODAL_ENDPOINT}/generate`, {
         system_prompt: systemPrompt,
         messages,
         max_tokens: 500,
         temperature: 0.7,
+      }, {
+        timeout: 120000, // 2 minute timeout for cold starts
       })
 
+      console.log('Modal response received successfully')
       return response.data.response
-    } catch (error) {
-      console.error('Modal LLM request failed, using fallback:', error)
+    } catch (error: any) {
+      console.error('Modal LLM request failed:', error.message || error)
+      console.log('Using fallback response instead')
       return this.fallbackResponse(message)
     }
   }
