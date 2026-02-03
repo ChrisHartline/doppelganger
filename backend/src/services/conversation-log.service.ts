@@ -4,7 +4,8 @@ import { randomUUID } from 'crypto'
 import type { Message } from '../types'
 import { nylasService } from './nylas.service'
 
-const LOGS_DIR = path.join(__dirname, '../../logs')
+// Use /tmp for serverless (Vercel), local path for development
+const LOGS_DIR = process.env.VERCEL ? '/tmp/logs' : path.join(__dirname, '../../logs')
 const CONVERSATIONS_FILE = path.join(LOGS_DIR, 'conversations.json')
 
 export interface ConversationLog {
