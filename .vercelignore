@@ -3,8 +3,6 @@ node_modules
 .env.local
 *.log
 .DS_Store
-backend/src
-frontend/src
 modal
 docs
 *.drawio
