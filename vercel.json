@@ -1,9 +1,8 @@
 {
-  "framework": null,
-  "buildCommand": "npm install && npm run build",
+  "buildCommand": "npm install --workspaces && npm run build",
   "outputDirectory": "frontend/dist",
-  "devCommand": "npm run dev",
-  "installCommand": null,
+  "installCommand": "npm install --workspaces",
+  "framework": null,
   "rewrites": [
     {
       "source": "/api/(.*)",
