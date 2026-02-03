@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { v4 as uuidv4 } from 'uuid'
+import { randomUUID } from 'crypto'
 import type { Message } from '../types'
 import { nylasService } from './nylas.service'
 
@@ -64,9 +64,9 @@ class ConversationLogService {
   }
 
   createSession(visitorInfo?: Partial<ConversationLog['visitorInfo']>): string {
-    const sessionId = uuidv4()
+    const sessionId = randomUUID()
     const conversation: ConversationLog = {
-      id: uuidv4(),
+      id: randomUUID(),
       sessionId,
       startedAt: new Date(),
       lastActivityAt: new Date(),
