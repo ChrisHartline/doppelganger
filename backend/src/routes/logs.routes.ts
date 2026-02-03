@@ -28,7 +28,7 @@ router.get('/', (req: Request, res: Response) => {
 
 // Get a specific conversation with full message history
 router.get('/:sessionId', (req: Request, res: Response) => {
-  const { sessionId } = req.params
+  const sessionId = Array.isArray(req.params.sessionId) ? req.params.sessionId[0] : req.params.sessionId
   const conversation = conversationLogService.getConversation(sessionId)
 
   if (!conversation) {
@@ -75,7 +75,7 @@ router.get('/unread', (_req: Request, res: Response) => {
 
 // Manually trigger notification for a conversation
 router.post('/:conversationId/notify', async (req: Request, res: Response) => {
-  const { conversationId } = req.params
+  const conversationId = Array.isArray(req.params.conversationId) ? req.params.conversationId[0] : req.params.conversationId
 
   try {
     await conversationLogService.sendNotification(conversationId)

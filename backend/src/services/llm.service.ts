@@ -2,9 +2,20 @@ import Anthropic from '@anthropic-ai/sdk'
 import type { Message, KnowledgeBase } from '../types'
 import { knowledgeService } from './knowledge.service'
 
-const anthropic = process.env.CLAUDE_API_KEY
-  ? new Anthropic({ apiKey: process.env.CLAUDE_API_KEY })
-  : null
+// Anthropic client initialized lazily after dotenv loads
+let anthropic: Anthropic | null = null
+
+function getAnthropicClient(): Anthropic | null {
+  if (anthropic === null) {
+    const apiKey = process.env.CLAUDE_API_KEY
+    console.log('CLAUDE_API_KEY present:', !!apiKey, apiKey ? `(${apiKey.substring(0, 15)}...)` : '(none)')
+    if (apiKey) {
+      anthropic = new Anthropic({ apiKey })
+      console.log('Anthropic client initialized')
+    }
+  }
+  return anthropic
+}
 
 interface Personality {
   name: string
@@ -54,13 +65,14 @@ class LLMService {
     const messages = this.buildMessages(conversationHistory, message)
 
     try {
-      if (!anthropic) {
+      const client = getAnthropicClient()
+      if (!client) {
         console.log('Claude API key not configured, using fallback')
         return this.fallbackResponse(message)
       }
 
       console.log('Calling Claude API...')
-      const response = await anthropic.messages.create({
+      const response = await client.messages.create({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 500,
         system: systemPrompt,
@@ -76,7 +88,13 @@ class LLMService {
       console.log('Claude response received successfully')
       return reply
     } catch (error: any) {
-      console.error('Claude API request failed:', error.message || error)
+      console.error('Claude API request failed:', error)
+      console.error('Error details:', {
+        message: error.message,
+        status: error.status,
+        type: error.type,
+        code: error.code,
+      })
       console.log('Using fallback response instead')
       return this.fallbackResponse(message)
     }

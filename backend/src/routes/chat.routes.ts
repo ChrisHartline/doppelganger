@@ -108,7 +108,7 @@ router.post('/', async (req: Request<{}, {}, ChatRequest & { sessionId?: string 
 
 // Update visitor info manually (e.g., from a form)
 router.post('/session/:sessionId/info', (req: Request, res: Response) => {
-  const { sessionId } = req.params
+  const sessionId = Array.isArray(req.params.sessionId) ? req.params.sessionId[0] : req.params.sessionId
   const { name, email, company, role } = req.body
 
   conversationLogService.updateVisitorInfo(sessionId, { name, email, company, role })

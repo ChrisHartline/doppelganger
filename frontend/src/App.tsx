@@ -22,7 +22,7 @@ function App() {
   const [showBooking, setShowBooking] = useState(false)
   const [bookingConfirmation, setBookingConfirmation] = useState<string | null>(null)
   const [responseStatus, setResponseStatus] = useState<ResponseStatus>('idle')
-  const [audioEnabled, setAudioEnabled] = useState(true)
+  const [audioEnabled] = useState(true) // Audio enabled by default, can add toggle later
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
 
   const handleSendMessage = useCallback(async (content: string) => {

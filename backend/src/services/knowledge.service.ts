@@ -71,7 +71,7 @@ class KnowledgeService {
     return this.knowledgeBase!
   }
 
-  async getPersonality(): Promise<Record<string, unknown> | null> {
+  async getPersonality(): Promise<any> {
     try {
       const personalityPath = path.join(KNOWLEDGE_DIR, 'personality.json')
       if (fs.existsSync(personalityPath)) {
@@ -83,7 +83,7 @@ class KnowledgeService {
     return null
   }
 
-  async getHardBoundaries(): Promise<Record<string, unknown> | null> {
+  async getHardBoundaries(): Promise<any> {
     try {
       const boundariesPath = path.join(KNOWLEDGE_DIR, 'hard_boundaries.json')
       if (fs.existsSync(boundariesPath)) {
