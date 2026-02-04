@@ -21,14 +21,35 @@ class ApiService {
     return response.json()
   }
 
-  async sendMessage(message: string, conversationHistory: Message[]): Promise<{
+  async sendMessage(message: string, conversationHistory: Message[], sessionId?: string): Promise<{
     reply: string
     isQualified: boolean
     qualificationScore: number
+    requiresContactInfo?: boolean
+    linkedInUrl?: string
   }> {
     return this.fetch('/chat', {
       method: 'POST',
-      body: JSON.stringify({ message, conversationHistory }),
+      body: JSON.stringify({ message, conversationHistory, sessionId }),
+    })
+  }
+
+  async submitContactInfo(sessionId: string, contactInfo: {
+    firstName: string
+    lastName: string
+    company: string
+    email: string
+    role?: string
+  }): Promise<{ success: boolean; message: string }> {
+    return this.fetch('/contact', {
+      method: 'POST',
+      body: JSON.stringify({ sessionId, ...contactInfo }),
+    })
+  }
+
+  async createSession(): Promise<{ sessionId: string }> {
+    return this.fetch('/chat/session', {
+      method: 'POST',
     })
   }
 

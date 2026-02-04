@@ -18,6 +18,7 @@ const profileRoutes = require('../backend/dist/routes/profile.routes').default;
 const qualificationRoutes = require('../backend/dist/routes/qualification.routes').default;
 const avatarRoutes = require('../backend/dist/routes/avatar.routes').default;
 const logsRoutes = require('../backend/dist/routes/logs.routes').default;
+const contactRoutes = require('../backend/dist/routes/contact.routes').default;
 
 const { knowledgeService } = require('../backend/dist/services/knowledge.service');
 const { llmService } = require('../backend/dist/services/llm.service');
@@ -48,6 +49,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/qualification', qualificationRoutes);
 app.use('/api/avatar', avatarRoutes);
 app.use('/api/logs', logsRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

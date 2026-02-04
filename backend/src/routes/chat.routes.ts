@@ -34,6 +34,27 @@ router.post('/', async (req: Request<{}, {}, ChatRequest & { sessionId?: string 
         content: message,
         timestamp: new Date(),
       })
+
+      // Check if at message limit (10 messages without contact info)
+      if (conversationLogService.isAtMessageLimit(sessionId, 10)) {
+        const limitReply = "I've really enjoyed our conversation! To continue chatting, I'd love to know who I'm speaking with. Could you please share your name, company, and email? Or, if you'd prefer, feel free to connect with me directly on LinkedIn."
+        
+        conversationLogService.logMessage(sessionId, {
+          id: `msg-${Date.now() + 1}`,
+          role: 'assistant',
+          content: limitReply,
+          timestamp: new Date(),
+        })
+
+        res.json({
+          reply: limitReply,
+          qualificationScore: 0,
+          isQualified: false,
+          requiresContactInfo: true,
+          linkedInUrl: 'https://www.linkedin.com/in/chrishartline',
+        })
+        return
+      }
     }
 
     // Generate response

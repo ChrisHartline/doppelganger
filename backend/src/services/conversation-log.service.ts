@@ -19,9 +19,12 @@ export interface ConversationLog {
     email?: string
     company?: string
     role?: string
+    firstName?: string
+    lastName?: string
     userAgent?: string
     ip?: string
   }
+  hasProvidedContactInfo: boolean
   qualificationScore: number
   isQualified: boolean
   appointmentBooked: boolean
@@ -73,6 +76,7 @@ class ConversationLogService {
       lastActivityAt: new Date(),
       messages: [],
       visitorInfo: visitorInfo || {},
+      hasProvidedContactInfo: false,
       qualificationScore: 0,
       isQualified: false,
       appointmentBooked: false,
@@ -107,8 +111,38 @@ class ConversationLogService {
     const conversation = this.store.conversations.find((c) => c.sessionId === sessionId)
     if (conversation) {
       conversation.visitorInfo = { ...conversation.visitorInfo, ...info }
+      
+      // Check if all required contact fields are provided
+      const hasRequiredInfo = !!(
+        conversation.visitorInfo.firstName &&
+        conversation.visitorInfo.lastName &&
+        conversation.visitorInfo.company &&
+        conversation.visitorInfo.email
+      )
+      
+      if (hasRequiredInfo) {
+        conversation.hasProvidedContactInfo = true
+      }
+      
       this.save()
     }
+  }
+
+  getMessageCount(sessionId: string): number {
+    const conversation = this.store.conversations.find((c) => c.sessionId === sessionId)
+    return conversation ? conversation.messages.length : 0
+  }
+
+  isAtMessageLimit(sessionId: string, limit: number = 10): boolean {
+    const conversation = this.store.conversations.find((c) => c.sessionId === sessionId)
+    if (!conversation) return false
+    
+    // If they've provided contact info, no limit
+    if (conversation.hasProvidedContactInfo) return false
+    
+    // Count user messages only (not assistant responses)
+    const userMessageCount = conversation.messages.filter(m => m.role === 'user').length
+    return userMessageCount >= limit
   }
 
   logDealbreaker(sessionId: string, dealbreaker: string): void {

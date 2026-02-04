@@ -1,14 +1,16 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { AvatarDisplay } from '@/components/AvatarDisplay'
 import { ChatInterface } from '@/components/ChatInterface'
 import { QualificationProgress } from '@/components/QualificationProgress'
 import { AppointmentBooking } from '@/components/AppointmentBooking'
+import { ContactInfoForm, type ContactInfo } from '@/components/ContactInfoForm'
 import { StatusBar, type ResponseStatus } from '@/components/StatusBar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { api } from '@/services/api'
 import type { Message, ConversationState } from '@/types'
 
 function App() {
+  const [sessionId, setSessionId] = useState<string | null>(null)
   const [conversationState, setConversationState] = useState<ConversationState>({
     messages: [],
     isQualified: false,
@@ -20,10 +22,25 @@ function App() {
   const [videoUrl, setVideoUrl] = useState<string | null>(null)
   const [isPlayingVideo, setIsPlayingVideo] = useState(false)
   const [showBooking, setShowBooking] = useState(false)
+  const [showContactForm, setShowContactForm] = useState(false)
+  const [linkedInUrl, setLinkedInUrl] = useState<string | null>(null)
   const [bookingConfirmation, setBookingConfirmation] = useState<string | null>(null)
   const [responseStatus, setResponseStatus] = useState<ResponseStatus>('idle')
   const [audioEnabled] = useState(true) // Audio enabled by default, can add toggle later
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
+
+  // Create session on mount
+  useEffect(() => {
+    const initSession = async () => {
+      try {
+        const { sessionId: newSessionId } = await api.createSession()
+        setSessionId(newSessionId)
+      } catch (error) {
+        console.error('Failed to create session:', error)
+      }
+    }
+    initSession()
+  }, [])
 
   const handleSendMessage = useCallback(async (content: string) => {
     // Stop any currently playing audio
@@ -50,8 +67,14 @@ function App() {
 
     try {
       // Step 1: Get text response (fast)
-      const response = await api.sendMessage(content, conversationState.messages)
+      const response = await api.sendMessage(content, conversationState.messages, sessionId || undefined)
       setResponseStatus('responding')
+
+      // Check if contact info is required (hit message limit)
+      if (response.requiresContactInfo) {
+        setShowContactForm(true)
+        setLinkedInUrl(response.linkedInUrl || null)
+      }
 
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
@@ -133,7 +156,7 @@ function App() {
     } finally {
       setIsLoading(false)
     }
-  }, [conversationState.messages, audioEnabled])
+  }, [conversationState.messages, audioEnabled, sessionId])
 
   const handleBookAppointment = () => {
     setShowBooking(true)
@@ -142,6 +165,35 @@ function App() {
   const handleBookingSuccess = (confirmationId: string) => {
     setBookingConfirmation(confirmationId)
     setShowBooking(false)
+  }
+
+  const handleContactSubmit = async (contactInfo: ContactInfo) => {
+    if (!sessionId) return
+
+    try {
+      await api.submitContactInfo(sessionId, contactInfo)
+      setShowContactForm(false)
+      
+      // Add a system message acknowledging the info
+      const acknowledgment: Message = {
+        id: crypto.randomUUID(),
+        role: 'assistant',
+        content: `Thanks ${contactInfo.firstName}! Great to meet you. Let's continue our conversation.`,
+        timestamp: new Date(),
+      }
+      setConversationState((prev) => ({
+        ...prev,
+        messages: [...prev.messages, acknowledgment],
+      }))
+    } catch (error) {
+      console.error('Failed to submit contact info:', error)
+      alert('Failed to save contact information. Please try again.')
+    }
+  }
+
+  const handleLinkedInRedirect = () => {
+    const url = linkedInUrl || 'https://www.linkedin.com/in/chrishartline'
+    window.open(url, '_blank')
   }
 
   const handlePlayVideo = useCallback(() => {
@@ -185,6 +237,11 @@ function App() {
               </p>
             </CardContent>
           </Card>
+        ) : showContactForm ? (
+          <ContactInfoForm
+            onSubmit={handleContactSubmit}
+            onLinkedInRedirect={handleLinkedInRedirect}
+          />
         ) : showBooking ? (
           <AppointmentBooking
             onClose={() => setShowBooking(false)}
