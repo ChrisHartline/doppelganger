@@ -132,13 +132,12 @@ class NylasService {
             name: booking.name,
           },
         ],
-        calendar_id: primaryCalendar.id,
       }
       
       console.log('Creating event with payload:', JSON.stringify(eventPayload, null, 2))
 
       const response = await axios.post(
-        `${NYLAS_API_URL}/grants/${NYLAS_GRANT_ID}/events`,
+        `${NYLAS_API_URL}/grants/${NYLAS_GRANT_ID}/events?calendar_id=${encodeURIComponent(primaryCalendar.id)}`,
         eventPayload,
         {
           headers: {
@@ -161,7 +160,7 @@ class NylasService {
         console.error('Response data:', JSON.stringify(error.response.data, null, 2))
       }
       
-      const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message
+      const errorMessage = error.response?.data?.error?.message || error.response?.data?.message || error.message
       throw new Error(`Failed to create calendar event: ${errorMessage}`)
     }
   }
