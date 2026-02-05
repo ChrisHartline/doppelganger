@@ -119,9 +119,22 @@ class NylasService {
 
       console.log('Using calendar:', primaryCalendar.id, primaryCalendar.name)
       
+      // Build description with contact info
+      let description = `Purpose: ${booking.purpose}\n\n`
+      
+      if (booking.phone) {
+        description += `Phone: ${booking.phone}\n`
+      }
+      
+      if (booking.meetsLink) {
+        description += `Google Meets: ${booking.meetsLink}\n`
+      }
+      
+      description += `\nBooked via AI Doppelganger\nConfirmation ID: ${confirmationId}`
+      
       const eventPayload = {
         title: `Meeting with ${booking.name} (${booking.company})`,
-        description: `Purpose: ${booking.purpose}\n\nBooked via AI Doppelganger\nConfirmation ID: ${confirmationId}`,
+        description,
         when: {
           start_time: Math.floor(new Date(slot.startTime).getTime() / 1000),
           end_time: Math.floor(new Date(slot.endTime).getTime() / 1000),

@@ -39,6 +39,8 @@ export interface BookingRequest {
   company: string
   purpose: string
   slotId: string
+  phone?: string
+  meetsLink?: string
 }
 
 export interface UserProfile {

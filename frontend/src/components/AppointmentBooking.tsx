@@ -23,7 +23,10 @@ export function AppointmentBooking({ onClose, onSuccess }: AppointmentBookingPro
     email: '',
     company: '',
     purpose: '',
+    phone: '',
+    meetsLink: '',
   })
+  const [contactError, setContactError] = useState('')
 
   useEffect(() => {
     loadSlots()
@@ -47,6 +50,13 @@ export function AppointmentBooking({ onClose, onSuccess }: AppointmentBookingPro
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedSlot) return
+
+    // Validate that at least one contact method is provided
+    if (!formData.phone && !formData.meetsLink) {
+      setContactError('Please provide either a phone number or Google Meets link')
+      return
+    }
+    setContactError('')
 
     setSubmitting(true)
     try {
@@ -162,6 +172,34 @@ export function AppointmentBooking({ onClose, onSuccess }: AppointmentBookingPro
               onChange={(e) => setFormData({ ...formData, company: e.target.value })}
               required
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="phone">Phone Number (optional)</Label>
+            <Input
+              id="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              placeholder="+1 (555) 123-4567"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="meetsLink">Google Meets Link (optional)</Label>
+            <Input
+              id="meetsLink"
+              type="url"
+              value={formData.meetsLink}
+              onChange={(e) => setFormData({ ...formData, meetsLink: e.target.value })}
+              placeholder="https://meet.google.com/xxx-xxxx-xxx"
+            />
+            <p className="text-xs text-muted-foreground">
+              Provide at least one: phone number or Google Meets link
+            </p>
+            {contactError && (
+              <p className="text-xs text-red-500">{contactError}</p>
+            )}
           </div>
 
           <div className="space-y-2">

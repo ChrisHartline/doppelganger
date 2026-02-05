@@ -31,6 +31,11 @@ router.post('/book', async (req: Request<{}, {}, BookingRequest>, res: Response)
       return
     }
 
+    if (!booking.phone && !booking.meetsLink) {
+      res.status(400).json({ error: 'Either phone number or Google Meets link is required' })
+      return
+    }
+
     // Parse slot ID to get the slot time
     const slotTime = parseInt(booking.slotId.replace('slot-', ''), 10)
     const slotStart = new Date(slotTime)
