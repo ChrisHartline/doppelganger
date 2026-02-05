@@ -129,9 +129,15 @@ class NylasService {
         eventId: response.data.data.id,
         confirmationId,
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Nylas create event error:', error)
-      throw new Error('Failed to create calendar event')
+      console.error('Nylas error details:', {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+      })
+      throw new Error(`Failed to create calendar event: ${error.response?.data?.message || error.message}`)
     }
   }
 
