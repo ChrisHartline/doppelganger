@@ -99,6 +99,24 @@ class NylasService {
     }
 
     try {
+      // Get the primary calendar ID first
+      const calendarsResponse = await axios.get(
+        `${NYLAS_API_URL}/grants/${NYLAS_GRANT_ID}/calendars`,
+        {
+          headers: {
+            Authorization: `Bearer ${NYLAS_API_KEY}`,
+          },
+        }
+      )
+      
+      // Find the primary calendar or use the first one
+      const calendars = calendarsResponse.data.data
+      const primaryCalendar = calendars.find((cal: any) => cal.is_primary) || calendars[0]
+      
+      if (!primaryCalendar) {
+        throw new Error('No calendar found for this account')
+      }
+
       const response = await axios.post(
         `${NYLAS_API_URL}/grants/${NYLAS_GRANT_ID}/events`,
         {
@@ -114,7 +132,7 @@ class NylasService {
               name: booking.name,
             },
           ],
-          calendar_id: 'primary',
+          calendar_id: primaryCalendar.id,
         },
         {
           headers: {
