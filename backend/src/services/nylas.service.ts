@@ -117,23 +117,29 @@ class NylasService {
         throw new Error('No calendar found for this account')
       }
 
+      console.log('Using calendar:', primaryCalendar.id, primaryCalendar.name)
+      
+      const eventPayload = {
+        title: `Meeting with ${booking.name} (${booking.company})`,
+        description: `Purpose: ${booking.purpose}\n\nBooked via AI Doppelganger\nConfirmation ID: ${confirmationId}`,
+        when: {
+          start_time: Math.floor(new Date(slot.startTime).getTime() / 1000),
+          end_time: Math.floor(new Date(slot.endTime).getTime() / 1000),
+        },
+        participants: [
+          {
+            email: booking.email,
+            name: booking.name,
+          },
+        ],
+        calendar_id: primaryCalendar.id,
+      }
+      
+      console.log('Creating event with payload:', JSON.stringify(eventPayload, null, 2))
+
       const response = await axios.post(
         `${NYLAS_API_URL}/grants/${NYLAS_GRANT_ID}/events`,
-        {
-          title: `Meeting with ${booking.name} (${booking.company})`,
-          description: `Purpose: ${booking.purpose}\n\nBooked via AI Doppelganger\nConfirmation ID: ${confirmationId}`,
-          when: {
-            start_time: Math.floor(new Date(slot.startTime).getTime() / 1000),
-            end_time: Math.floor(new Date(slot.endTime).getTime() / 1000),
-          },
-          participants: [
-            {
-              email: booking.email,
-              name: booking.name,
-            },
-          ],
-          calendar_id: primaryCalendar.id,
-        },
+        eventPayload,
         {
           headers: {
             Authorization: `Bearer ${NYLAS_API_KEY}`,
@@ -148,14 +154,15 @@ class NylasService {
         confirmationId,
       }
     } catch (error: any) {
-      console.error('Nylas create event error:', error)
-      console.error('Nylas error details:', {
-        message: error.message,
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-      })
-      throw new Error(`Failed to create calendar event: ${error.response?.data?.message || error.message}`)
+      console.error('❌ Nylas create event error:', error.message)
+      
+      if (error.response) {
+        console.error('Response status:', error.response.status)
+        console.error('Response data:', JSON.stringify(error.response.data, null, 2))
+      }
+      
+      const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message
+      throw new Error(`Failed to create calendar event: ${errorMessage}`)
     }
   }
 
