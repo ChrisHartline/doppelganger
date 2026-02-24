@@ -19,11 +19,16 @@ import contactRoutes from './routes/contact.routes'
 import { knowledgeService } from './services/knowledge.service'
 import { llmService } from './services/llm.service'
 import { conversationLogService } from './services/conversation-log.service'
+import { securityHeaders } from './middleware/security-headers.middleware'
+import { globalLimiter, chatLimiter, emailLimiter, contactLimiter } from './middleware/rate-limit.middleware'
 
 const app = express()
 const PORT = process.env.PORT || 3001
 
-// Middleware - allow multiple local ports for development
+// Security headers
+app.use(securityHeaders)
+
+// CORS — allow multiple local ports for development
 const allowedOrigins = process.env.FRONTEND_URL
   ? [process.env.FRONTEND_URL]
   : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176']
@@ -34,20 +39,23 @@ app.use(cors({
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+// Global rate limit
+app.use(globalLimiter)
+
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 
-// API Routes
-app.use('/api/chat', chatRoutes)
+// API Routes (with per-route rate limits where needed)
+app.use('/api/chat', chatLimiter, chatRoutes)
 app.use('/api/video', videoRoutes)
 app.use('/api/audio', audioRoutes)
 app.use('/api/calendar', calendarRoutes)
-app.use('/api/email', emailRoutes)
+app.use('/api/email', emailLimiter, emailRoutes)
 app.use('/api/profile', profileRoutes)
 app.use('/api/qualification', qualificationRoutes)
 app.use('/api/avatar', avatarRoutes)
 app.use('/api/logs', logsRoutes)
-app.use('/api/contact', contactRoutes)
+app.use('/api/contact', contactLimiter, contactRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {

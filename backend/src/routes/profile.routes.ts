@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { knowledgeService } from '../services/knowledge.service'
+import { requireAdmin } from '../middleware/auth.middleware'
 
 const router = Router()
 
@@ -21,7 +22,7 @@ router.get('/', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/resume', async (req: Request, res: Response) => {
+router.post('/resume', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { content } = req.body
 
@@ -39,7 +40,7 @@ router.post('/resume', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/skills', async (req: Request, res: Response) => {
+router.post('/skills', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { skills } = req.body
 
@@ -57,7 +58,7 @@ router.post('/skills', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/qa', async (req: Request, res: Response) => {
+router.post('/qa', requireAdmin, async (req: Request, res: Response) => {
   try {
     const { question, answer } = req.body
 

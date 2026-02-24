@@ -21,8 +21,19 @@ router.post('/', async (req: Request<{}, {}, ChatRequest & { sessionId?: string 
   try {
     const { message, conversationHistory, sessionId } = req.body
 
-    if (!message) {
+    if (!message || typeof message !== 'string') {
       res.status(400).json({ error: 'Message is required' })
+      return
+    }
+
+    const trimmed = message.trim()
+    if (trimmed.length === 0) {
+      res.status(400).json({ error: 'Message cannot be empty' })
+      return
+    }
+
+    if (trimmed.length > 2000) {
+      res.status(400).json({ error: 'Message too long (max 2000 characters)' })
       return
     }
 

@@ -23,13 +23,18 @@ const contactRoutes = require('../backend/dist/routes/contact.routes').default;
 const { knowledgeService } = require('../backend/dist/services/knowledge.service');
 const { llmService } = require('../backend/dist/services/llm.service');
 const { conversationLogService } = require('../backend/dist/services/conversation-log.service');
+const { securityHeaders } = require('../backend/dist/middleware/security-headers.middleware');
+const { globalLimiter, chatLimiter, emailLimiter, contactLimiter } = require('../backend/dist/middleware/rate-limit.middleware');
 
 const app = express();
 
-// CORS configuration
+// Security headers
+app.use(securityHeaders);
+
+// CORS configuration — require explicit FRONTEND_URL in production
 const allowedOrigins = process.env.FRONTEND_URL
-  ? [process.env.FRONTEND_URL, 'https://*.vercel.app']
-  : ['*'];
+  ? [process.env.FRONTEND_URL]
+  : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'];
 
 app.use(cors({
   origin: allowedOrigins,
@@ -39,17 +44,20 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// API Routes
-app.use('/api/chat', chatRoutes);
+// Global rate limit
+app.use(globalLimiter);
+
+// API Routes (with per-route rate limits where needed)
+app.use('/api/chat', chatLimiter, chatRoutes);
 app.use('/api/video', videoRoutes);
 app.use('/api/audio', audioRoutes);
 app.use('/api/calendar', calendarRoutes);
-app.use('/api/email', emailRoutes);
+app.use('/api/email', emailLimiter, emailRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/qualification', qualificationRoutes);
 app.use('/api/avatar', avatarRoutes);
 app.use('/api/logs', logsRoutes);
-app.use('/api/contact', contactRoutes);
+app.use('/api/contact', contactLimiter, contactRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

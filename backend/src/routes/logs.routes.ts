@@ -1,7 +1,11 @@
 import { Router, Request, Response } from 'express'
 import { conversationLogService, ConversationLog } from '../services/conversation-log.service'
+import { requireAdmin } from '../middleware/auth.middleware'
 
 const router = Router()
+
+// All log routes require admin auth
+router.use(requireAdmin)
 
 // Get all conversations (most recent first)
 router.get('/', (req: Request, res: Response) => {

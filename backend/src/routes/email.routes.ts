@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { nylasService } from '../services/nylas.service'
+import { requireAdmin } from '../middleware/auth.middleware'
 
 interface SendEmailRequest {
   to: string
@@ -9,7 +10,7 @@ interface SendEmailRequest {
 
 const router = Router()
 
-router.post('/send', async (req: Request<{}, {}, SendEmailRequest>, res: Response) => {
+router.post('/send', requireAdmin, async (req: Request<{}, {}, SendEmailRequest>, res: Response) => {
   try {
     const { to, subject, body } = req.body
 

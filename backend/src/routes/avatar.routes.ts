@@ -3,6 +3,7 @@ import multer from 'multer'
 import path from 'path'
 import fs from 'fs'
 import { didService } from '../services/did.service'
+import { requireAdmin } from '../middleware/auth.middleware'
 
 const UPLOAD_DIR = path.join(__dirname, '../../uploads')
 
@@ -38,7 +39,7 @@ const upload = multer({
 
 const router = Router()
 
-router.post('/upload', upload.single('avatar'), async (req: Request, res: Response) => {
+router.post('/upload', requireAdmin, upload.single('avatar'), async (req: Request, res: Response) => {
   try {
     if (!req.file) {
       res.status(400).json({ error: 'No file uploaded' })
