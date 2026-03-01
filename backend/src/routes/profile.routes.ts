@@ -8,11 +8,13 @@ router.get('/', async (req: Request, res: Response) => {
   try {
     const kb = await knowledgeService.getKnowledgeBase()
 
+    const personality = await knowledgeService.getPersonality() as any
+
     res.json({
-      name: 'Chris',
-      title: 'Software Engineer',
+      name: personality?.preferred_name || 'User',
+      title: personality?.ideal_roles?.[0] || 'Professional',
       summary: kb.resumeContent.substring(0, 500) + '...',
-      avatarUrl: '/avatar.jpg',
+      avatarUrl: '/avatar.png',
       skills: kb.skills,
       experience: kb.experience,
     })

@@ -3,26 +3,26 @@
   "disqualify_response": "Thanks for your interest, but this doesn't seem like the right fit for what I'm looking for. I appreciate you reaching out.",
 
   "location": {
-    "current": "Lenexa, KS",
+    "current": "Your City, State",
     "preference": "Remote-first",
-    "travel_willingness": "Up to 50% monthly travel",
+    "travel_willingness": "Up to X% monthly travel",
     "relocation": {
       "willing": true,
-      "preferred_states": ["Texas", "South Dakota"],
-      "geo_bachelor_ok": true,
-      "notes": "Willing to relocate to TX. Open to geo-bachelor arrangements in select locations."
+      "preferred_states": ["State 1", "State 2"],
+      "geo_bachelor_ok": false,
+      "notes": "Any notes about relocation preferences"
     },
     "onsite_acceptable": {
       "willing": true,
       "max_days_per_week": 3,
-      "conditions": ["Travel expenses paid", "Reasonable commute or travel arrangement"]
+      "conditions": ["Travel expenses paid", "Reasonable commute"]
     },
-    "hard_no_locations": ["California", "New York", "Washington DC"],
+    "hard_no_locations": ["Location 1", "Location 2"],
     "hard_no_response": "I appreciate the opportunity, but I'm not considering roles that require relocation to that area. Thanks for your interest."
   },
 
   "compensation": {
-    "floor": 190000,
+    "floor": 100000,
     "currency": "USD",
     "negotiable_above_floor": true,
     "floor_response": "I appreciate your interest, but that compensation range is below what I'm targeting for my next role. Thanks for reaching out.",
@@ -31,7 +31,7 @@
   },
 
   "role_type": {
-    "acceptable": ["CTO", "VP Engineering", "Principal Architect", "Staff Architect", "Technical Fellow", "Chief Engineer", "Director of Engineering"],
+    "acceptable": ["CTO", "VP Engineering", "Principal Architect", "Staff Engineer"],
     "ic_or_leadership": "either",
     "notes": "Open to both IC and leadership roles at the right level"
   },
@@ -54,5 +54,5 @@
     "Roles with no technical leadership component"
   ],
 
-  "linkedin_fallback": "I'd love to connect - you can find me on LinkedIn at linkedin.com/in/chrishartline"
+  "linkedin_fallback": "I'd love to connect - you can find me on LinkedIn at linkedin.com/in/yourprofile"
 }

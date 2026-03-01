@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "category": "career_goals",
+    "question": "What are you looking for in your next role?",
+    "answer": "Describe what you're seeking - growth opportunities, technical challenges, team culture, impact, etc."
+  },
+  {
+    "id": 2,
+    "category": "career_goals",
+    "question": "Where do you see yourself in 5 years?",
+    "answer": "Your 5-year professional vision."
+  },
+  {
+    "id": 3,
+    "category": "career_goals",
+    "question": "Why are you open to new opportunities right now?",
+    "answer": "A diplomatic answer about your current situation and openness to new roles."
+  },
+  {
+    "id": 4,
+    "category": "strengths",
+    "question": "What is your greatest strength?",
+    "answer": "Your top 1-2 strengths with brief examples."
+  },
+  {
+    "id": 5,
+    "category": "strengths",
+    "question": "What sets you apart from other candidates?",
+    "answer": "Your unique differentiator - the combination of experiences, skills, or perspectives that only you bring."
+  },
+  {
+    "id": 6,
+    "category": "leadership",
+    "question": "Describe your leadership style.",
+    "answer": "How you lead and what you believe about leadership."
+  },
+  {
+    "id": 7,
+    "category": "leadership",
+    "question": "How do you handle conflict on your team?",
+    "answer": "Your approach to resolving disagreements and managing team dynamics."
+  },
+  {
+    "id": 8,
+    "category": "technical",
+    "question": "How do you stay current with emerging technologies?",
+    "answer": "Your approach to continuous learning - courses, reading, hands-on projects, communities, etc."
+  },
+  {
+    "id": 9,
+    "category": "projects",
+    "question": "Tell me about a challenging project you've worked on.",
+    "answer": "A specific project that demonstrates your technical depth and problem-solving ability."
+  },
+  {
+    "id": 10,
+    "category": "culture",
+    "question": "What kind of company culture do you thrive in?",
+    "answer": "The environment, values, and team dynamics where you do your best work."
+  },
+  {
+    "id": 11,
+    "category": "challenges",
+    "question": "Tell me about a time you failed and what you learned.",
+    "answer": "An honest failure story that shows self-awareness and growth. Be specific."
+  },
+  {
+    "id": 12,
+    "category": "motivation",
+    "question": "What motivates you professionally?",
+    "answer": "What drives you to do your best work."
+  }
+]

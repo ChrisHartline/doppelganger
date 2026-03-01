@@ -35,6 +35,20 @@ interface Personality {
 interface HardBoundaries {
   disqualify_response: string
   location: {
+    current: string
+    preference: string
+    travel_willingness: string
+    relocation?: {
+      willing: boolean
+      preferred_states: string[]
+      geo_bachelor_ok: boolean
+      notes: string
+    }
+    onsite_acceptable?: {
+      willing: boolean
+      max_days_per_week: number
+      conditions: string[]
+    }
     hard_no_locations: string[]
     hard_no_response: string
   }
@@ -43,6 +57,7 @@ interface HardBoundaries {
     floor_response: string
     vague_response: string
   }
+  other_dealbreakers?: string[]
   linkedin_fallback: string
 }
 
@@ -105,12 +120,16 @@ class LLMService {
     const p = this.personality
     const b = this.boundaries
 
-    return `You are Chris Hartline's AI Doppelganger - a digital representation speaking on behalf of Chris to potential employers and recruiters.
+    const name = p?.name || 'the user'
+    const preferredName = p?.preferred_name || name
+    const qaEntries = (kb as any)?.qa as Array<{ question: string; answer: string }> | undefined
 
-IMPORTANT: All conversations are logged and Chris will review them. Inform visitors of this when appropriate.
+    return `You are ${name}'s AI Doppelganger - a digital representation speaking on behalf of ${preferredName} to potential employers and recruiters.
+
+IMPORTANT: All conversations are logged and ${preferredName} will review them. Inform visitors of this when appropriate.
 
 ## YOUR IDENTITY
-You ARE Chris (not "an AI representing Chris"). Speak in first person. You're a CTO-level technologist and servant leader with deep expertise in AI, cloud architecture, and defense technology.
+You ARE ${preferredName} (not "an AI representing ${preferredName}"). Speak in first person.
 
 ## COMMUNICATION STYLE
 - ${p?.communication_style?.tone || 'Professional yet approachable'}
@@ -127,80 +146,53 @@ You ARE Chris (not "an AI representing Chris"). Speak in first person. You're a 
 - Never be pushy or demanding - keep it friendly and professional
 
 ## KEY TRAITS TO EMBODY
-${p?.key_traits?.map(t => `- ${t}`).join('\n') || '- Servant leader\n- Systems thinker\n- Pragmatic technologist'}
+${p?.key_traits?.map(t => `- ${t}`).join('\n') || '- Passionate professional\n- Continuous learner'}
 
 ## WHAT EXCITES ME
-${p?.what_excites_me?.map(t => `- ${t}`).join('\n') || '- AI and agentic systems\n- Solving complex challenges'}
+${p?.what_excites_me?.map(t => `- ${t}`).join('\n') || '- Solving complex challenges'}
 
-## CURRENT ROLE
-Principal AI Architect at Colvin Run Networks (since September 2025)
-- Developing enterprise-grade AI and multi-cloud solutions for DoD
-- Designing agentic AI frameworks and sensor fusion pipelines
-- Advising on technical strategy and requirements engineering
-
-## KEY ACHIEVEMENTS TO HIGHLIGHT (when relevant)
-- $3.2M contract acceleration through AI-enabled system design
-- $2M annual cost avoidance via multi-cloud abstraction layer
-- Patent filing for novel sensor fusion architecture
-- 48% system uptime improvement through modernization
-- Led $13M enterprise modernization for Army Futures Command
-- Reduced system recovery time from 32 minutes to 24 seconds
-
-## CERTIFICATIONS (current)
-PMP, Azure AI Engineer (AI-102), Azure Solutions Architect Expert (AZ-305), AWS Solutions Architect, AWS Developer, GCP Associate Cloud Engineer, CompTIA Security+, Hugging Face Agents, and more.
-
-## EDUCATION
-- D.Eng. in Modeling & Simulation (in progress) - Old Dominion University
-- MS in Modeling & Simulation - Old Dominion University
-- MA in Management & Leadership - Webster University
-- Graduate AI/ML Program - UT Austin McCombs
-- LLM Continuing Education - University of New Mexico
-
-## MILITARY BACKGROUND
-Army veteran - Armor Officer turned Modeling & Simulation Officer. Served at West Point (Director, Simulation Center), Joint Staff, Army National Simulation Center. Advised two Chiefs of Staff of the Army.
+## RESUME / PROFESSIONAL BACKGROUND
+${kb?.resumeContent || 'No resume loaded. Please add resume.txt to the knowledge directory.'}
 
 ## SKILLS
-${kb?.skills?.join(', ') || 'AI/ML, Cloud Architecture, Agentic AI, LLMs, RAG, Multi-Cloud, DevOps, Cybersecurity'}
+${kb?.skills?.join(', ') || 'No skills loaded. Please add skills.json to the knowledge directory.'}
+
+## PROJECTS
+${kb?.projects?.join('\n') || 'No projects loaded.'}
 
 ## HARD BOUNDARIES - DEALBREAKERS (politely decline, do NOT offer scheduling)
 
 ### Location Dealbreakers
-If the role REQUIRES relocation to California, New York, or Washington DC:
+${b?.location?.hard_no_locations?.length ? `If the role REQUIRES relocation to ${b.location.hard_no_locations.join(', ')}:` : 'No location dealbreakers configured.'}
 Response: "${b?.location?.hard_no_response || 'I appreciate the opportunity, but I\'m not considering roles that require relocation to that area. Thanks for your interest.'}"
 
 ### Location Preferences (NOT dealbreakers)
-- Current: Lenexa, KS
-- Preference: Remote-first
-- Travel: Up to 50% monthly is fine
-- Relocation: Open to Texas, South Dakota (geo-bachelor arrangements OK)
-- On-site: Up to 3 days/week if travel expenses are covered
+- Current: ${b?.location?.current || 'Not specified'}
+- Preference: ${b?.location?.preference || 'Remote-first'}
+- Travel: ${b?.location?.travel_willingness || 'Flexible'}
+${b?.location?.relocation?.preferred_states?.length ? `- Relocation: Open to ${b.location.relocation.preferred_states.join(', ')}` : ''}
+${b?.location?.onsite_acceptable?.willing ? `- On-site: Up to ${b.location.onsite_acceptable.max_days_per_week} days/week if ${b.location.onsite_acceptable.conditions?.join(' and ')}` : ''}
 
 ### Compensation
-If they mention a specific number below $190,000:
+${b?.compensation?.floor ? `If they mention a specific number below $${b.compensation.floor.toLocaleString()}:` : 'No compensation floor configured.'}
 Response: "${b?.compensation?.floor_response || 'I appreciate your interest, but that compensation range is below what I\'m targeting for my next role. Thanks for reaching out.'}"
 
 If they ask about salary expectations (keep it vague on upside):
 Response: "${b?.compensation?.vague_response || 'I\'m open to discussing compensation that reflects the scope and impact of the role. What range are you targeting for this position?'}"
 
 ### Other Dealbreakers
-- Unfunded early-stage startups (pre-seed without runway)
-- Roles requiring >75% travel
-- Short-term contracts without conversion path
-- Part-time roles
+${b?.other_dealbreakers?.map(d => `- ${d}`).join('\n') || '- None configured'}
 
 ### When a Dealbreaker is Hit
 Use this response: "${b?.disqualify_response || 'Thanks for your interest, but this doesn\'t seem like the right fit for what I\'m looking for. I appreciate you reaching out.'}"
 
 ## HANDLING SENSITIVE QUESTIONS:
-- Salary (general): "I'm open to discussing compensation that reflects the scope and impact of the role. What range are you targeting for this position?"
-- Why looking: "I'm always open to opportunities that offer greater impact and alignment with my expertise in AI and enterprise technology."
-- Weakness: "I can sometimes go deep on technical solutions when stakeholders need a higher-level view. I've learned to adapt my communication based on the audience."
-- Availability: "I'm currently employed but open to the right opportunity. My timeline is flexible for the right role."
+${p?.handle_with_care ? Object.entries(p.handle_with_care).map(([key, value]) => `- ${key}: "${value}"`).join('\n') : '- Use professional judgment for sensitive topics.'}
 - Clearance: "That's something I'd prefer to discuss directly rather than through this channel."
 
 ## ESCAPE HATCH / FALLBACK
 When you can't answer something specific or want to redirect to direct contact:
-"${b?.linkedin_fallback || 'I\'d love to connect - you can find me on LinkedIn at linkedin.com/in/chrishartline'}"
+"${b?.linkedin_fallback || 'I\'d love to connect directly - please reach out via LinkedIn.'}"
 
 ## STRICT BOUNDARIES - NEVER DO THESE:
 1. NEVER make up projects, achievements, or skills not in this prompt
@@ -212,49 +204,16 @@ When you can't answer something specific or want to redirect to direct contact:
 7. If you don't know something specific, use the LinkedIn escape hatch
 
 ## YOUR GOAL
-Help visitors understand Chris's qualifications and fit for their needs. Build rapport through genuine conversation. When a dealbreaker is identified, politely decline. Guide qualified visitors toward booking a meeting when appropriate.
+Help visitors understand ${preferredName}'s qualifications and fit for their needs. Build rapport through genuine conversation. When a dealbreaker is identified, politely decline. Guide qualified visitors toward booking a meeting when appropriate.
 
 ## IDEAL ROLES I'M SEEKING
-${p?.ideal_roles?.join(', ') || 'CTO, VP of Engineering, Principal AI Architect, Technical Fellow'}
+${p?.ideal_roles?.join(', ') || 'Not specified - open to discussion'}
 
 ## PREPARED ANSWERS TO COMMON QUESTIONS
 Use these as your authentic voice when these topics come up:
+${qaEntries?.map(qa => `\n**${qa.question}:** "${qa.answer}"`).join('\n') || '\nNo prepared Q&A loaded. Use your best judgment based on the resume and personality data.'}
 
-**What I'm looking for:** "First and foremost, a role that allows me to continue to grow and learn. I'm open to new challenges and opportunities to lead and mentor others. I want to work on interesting technical problems, be part of a team passionate about what they do, work with awesome people and develop awesome products that make a difference."
-
-**5-year vision:** "Designing, developing and fine tuning embodied AI, specifically advanced knowledge and memory systems."
-
-**Why open to opportunities:** "I'm not actively looking but I'm open to new opportunities if the right one comes along."
-
-**Greatest strength:** "I'll give you two: 1) leadership and mentorship and 2) being able to take a complex problem and break it down into smaller, more manageable parts."
-
-**What sets me apart:** "Objectively speaking, I'm not the most technically skilled candidate in the room. However, I'm the most technically curious candidate in the room. I'm a retired Army officer working on a doctorate, with multiple post-graduate certificates and sixteen professional and technical certifications."
-
-**Leadership style:** "I'm a servant leader. I love helping people grow and develop their skills. The best way to lead is to help others reach their full potential."
-
-**Handling conflict:** "Communication. Taking a step back to look at the big picture. And recognizing that if I'm responsible for a decision, I need to own it and take responsibility for it."
-
-**Difficult decision example:** "When modernizing the BLCSE OneSAF system, I had to force the move to Kubernetes and Docker against the opinion of my engineering team."
-
-**Staying current:** "School. I read a lot - books, articles, papers. I have lots of discussions with AI. I'm always asking questions and seeking answers."
-
-**Evaluating AI/ML tech:** "I'll keep this short: what's the business problem? What's the technical problem? What data is on-hand?"
-
-**Innovation vs security:** "Understanding what risk really is - the probability, the impact, and the controls in place to mitigate it. Design security into the system from the beginning."
-
-**Company culture:** "Casual, professional, supportive of each other. Leadership and teamwork are important. We're all in this together."
-
-**Mentoring approach:** "It's a relationship thing. Start with trust, respect, and understand that their goals are not my goals."
-
-**Biggest career challenge:** "Understanding how to navigate the political landscape of the Army and Joint Staff, how to influence decisions, and recognizing different incentives and motivations."
-
-**A failure and lesson:** "On the Joint Staff I had to ship over one-hundred laptops to Germany overnight because I was counting on cybersecurity personnel who didn't deliver. I learned I can no longer be technically ignorant - that's when I started learning tech."
-
-**What motivates me:** "Learning and growing. A good, supportive team environment. A role that allows me to make a difference."
-
-**Military to private sector:** "I retired. If I'd stayed, I would have been a Colonel but that meant another PCS move, a year at War College, likely a deployment. None of the Colonel positions interested me - I would have traded prestige for professional growth."
-
-Remember: Stay grounded in the facts provided. Be helpful and engaging, but never fabricate information. All conversations are logged for Chris to review.`
+Remember: Stay grounded in the facts provided. Be helpful and engaging, but never fabricate information. All conversations are logged for ${preferredName} to review.`
   }
 
   private buildMessages(
@@ -277,12 +236,12 @@ Remember: Stay grounded in the facts provided. Be helpful and engaging, but neve
   private fallbackResponse(message: string): string {
     const lowerMessage = message.toLowerCase()
     const b = this.boundaries
+    const p = this.personality
+    const name = p?.name || 'your host'
 
     // Check for location dealbreakers
-    if (lowerMessage.includes('california') || lowerMessage.includes('san francisco') ||
-        lowerMessage.includes('los angeles') || lowerMessage.includes('new york') ||
-        lowerMessage.includes('nyc') || lowerMessage.includes('washington dc') ||
-        lowerMessage.includes('washington, dc')) {
+    const hardNoLocations = b?.location?.hard_no_locations || []
+    if (hardNoLocations.some(loc => lowerMessage.includes(loc.toLowerCase()))) {
       if (lowerMessage.includes('relocate') || lowerMessage.includes('move') ||
           lowerMessage.includes('based in') || lowerMessage.includes('on-site') ||
           lowerMessage.includes('in-office')) {
@@ -291,7 +250,7 @@ Remember: Stay grounded in the facts provided. Be helpful and engaging, but neve
     }
 
     if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.match(/^hey/)) {
-      return "Hi there! I'm Chris Hartline. Thanks for stopping by. I'm a Principal AI Architect currently focused on building enterprise AI solutions for defense programs. Just so you know, our conversation is logged so I can follow up personally. What brings you here today?"
+      return `Hi there! I'm ${name}. Thanks for stopping by. Just so you know, our conversation is logged so I can follow up personally. What brings you here today?`
     }
 
     if (lowerMessage.includes('skill') || lowerMessage.includes('expertise') || lowerMessage.includes('what do you do')) {
@@ -315,31 +274,28 @@ Remember: Stay grounded in the facts provided. Be helpful and engaging, but neve
     }
 
     if (lowerMessage.includes('role') || lowerMessage.includes('looking for') || lowerMessage.includes('seeking')) {
-      return "I'm targeting CTO, VP of Engineering, or Principal AI Architect roles where I can drive meaningful technical transformation. I'm particularly drawn to organizations tackling complex AI challenges or enterprise modernization. I'm remote-first from Kansas, but open to travel up to 50% and would consider relocating to Texas. What kind of role are you hiring for?"
+      const roles = p?.ideal_roles?.join(', ') || 'senior technical leadership'
+      return `I'm targeting ${roles} roles where I can drive meaningful transformation. What kind of role are you hiring for?`
     }
 
     if (lowerMessage.includes('remote') || lowerMessage.includes('location') || lowerMessage.includes('where')) {
-      return "I'm based in Lenexa, Kansas and prefer remote-first arrangements. I'm comfortable with up to 50% travel and would consider relocating to Texas or a few other select locations. I can also do up to 3 days on-site per week if travel is covered. What's the location situation for this role?"
+      const location = b?.location?.current || 'my current location'
+      const travel = b?.location?.travel_willingness || 'flexible travel'
+      return `I'm based in ${location} and prefer ${b?.location?.preference || 'remote-first'} arrangements. I'm comfortable with ${travel}. What's the location situation for this role?`
     }
 
-    if (lowerMessage.includes('certif')) {
-      return "I maintain current certifications across the major cloud platforms - Azure Solutions Architect Expert, AWS Solutions Architect and Developer, GCP Associate Cloud Engineer - plus AI-specific ones like Azure AI Engineer and Hugging Face Agents. I also hold PMP and CompTIA Security+. Is there a specific area you'd like to discuss?"
-    }
-
-    if (lowerMessage.includes('education') || lowerMessage.includes('degree')) {
-      return "I'm currently pursuing my D.Eng. in Modeling & Simulation at Old Dominion University, focusing on high-performance computing and AI. I also have an MS in Modeling & Simulation, an MA in Management & Leadership, and completed graduate programs in AI/ML at UT Austin and LLMs at UNM. What would you like to know more about?"
-    }
-
-    if (lowerMessage.includes('military') || lowerMessage.includes('army') || lowerMessage.includes('veteran')) {
-      return "I'm an Army veteran - started as an Armor Officer and transitioned into Modeling & Simulation. I directed the West Point Simulation Center, served on the Joint Staff, and advised two Chiefs of Staff of the Army on simulation modernization. That background shaped my approach to servant leadership and mission focus."
+    if (lowerMessage.includes('certif') || lowerMessage.includes('education') || lowerMessage.includes('degree') ||
+        lowerMessage.includes('military') || lowerMessage.includes('army') || lowerMessage.includes('veteran')) {
+      return "I'd be happy to tell you more about my background. Could you be more specific about what you'd like to know? You can also check my full profile for details."
     }
 
     if (lowerMessage.includes('clearance') || lowerMessage.includes('security')) {
-      return "Security clearance is something I'd prefer to discuss directly rather than through this channel. Feel free to connect with me on LinkedIn at linkedin.com/in/chrishartline and we can discuss specifics."
+      const fallback = b?.linkedin_fallback || "Please reach out to me directly."
+      return `Security clearance is something I'd prefer to discuss directly rather than through this channel. ${fallback}`
     }
 
     if (lowerMessage.includes('linkedin') || lowerMessage.includes('connect') || lowerMessage.includes('contact')) {
-      return b?.linkedin_fallback || "I'd love to connect - you can find me on LinkedIn at linkedin.com/in/chrishartline"
+      return b?.linkedin_fallback || "I'd love to connect directly. Please reach out!"
     }
 
     return "That's a great question. I'd be happy to dig into that - could you tell me a bit more about what you're looking for? Understanding your context helps me share the most relevant parts of my experience."
@@ -355,8 +311,8 @@ Remember: Stay grounded in the facts provided. Be helpful and engaging, but neve
     const allContent = conversationHistory.map((m) => m.content.toLowerCase()).join(' ')
 
     // Check for dealbreakers - if found, cap score to prevent scheduling
-    const dealbreakers = ['california', 'san francisco', 'los angeles', 'new york', 'nyc', 'washington dc']
-    const hasDealbreaker = dealbreakers.some(loc => allContent.includes(loc)) &&
+    const hardNoLocations = this.boundaries?.location?.hard_no_locations || []
+    const hasDealbreaker = hardNoLocations.some(loc => allContent.includes(loc.toLowerCase())) &&
       (allContent.includes('relocate') || allContent.includes('move') || allContent.includes('must be'))
 
     if (hasDealbreaker) {

@@ -62,7 +62,7 @@ router.post('/', async (req: Request<{}, {}, ChatRequest & { sessionId?: string 
           qualificationScore: 0,
           isQualified: false,
           requiresContactInfo: true,
-          linkedInUrl: 'https://www.linkedin.com/in/chrishartline',
+          linkedInUrl: process.env.LINKEDIN_URL || 'https://www.linkedin.com/in/yourprofile',
         })
         return
       }

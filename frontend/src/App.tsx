@@ -192,7 +192,7 @@ function App() {
   }
 
   const handleLinkedInRedirect = () => {
-    const url = linkedInUrl || 'https://www.linkedin.com/in/chrishartline'
+    const url = linkedInUrl || 'https://www.linkedin.com/in/yourprofile'
     window.open(url, '_blank')
   }
 
@@ -217,12 +217,11 @@ function App() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold tracking-tight">Chris Hartline</h1>
+          <h1 className="text-4xl font-bold tracking-tight">AI Doppelganger</h1>
           <p className="text-xl text-muted-foreground mt-2">
-            Principal AI Architect & Technology Leader
+            Your Professional AI Representative
           </p>
           <p className="text-sm text-muted-foreground mt-1 max-w-2xl mx-auto">
-            Specializing in enterprise AI, multi-cloud architecture, and agentic systems. 
             Chat with my AI doppelganger to explore opportunities or learn about my experience.
           </p>
         </header>

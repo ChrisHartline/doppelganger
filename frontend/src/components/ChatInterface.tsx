@@ -42,7 +42,7 @@ export function ChatInterface({
         <div className="space-y-4">
           {messages.length === 0 && (
             <div className="text-center text-muted-foreground py-8">
-              <p>Hello! I'm Chris's AI Doppelganger.</p>
+              <p>Hello! I'm your AI Doppelganger.</p>
               <p className="text-sm mt-2">
                 Feel free to ask me about my experience, skills, or projects.
               </p>

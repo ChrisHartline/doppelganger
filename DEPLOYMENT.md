@@ -89,7 +89,7 @@ vercel --prod
 ## Step 6: Custom Domain (Optional)
 
 1. Go to **Settings** → **Domains**
-2. Add your custom domain (e.g., `ashley.chrishartline.com`)
+2. Add your custom domain (e.g., `yourname.yourdomain.com`)
 3. Follow DNS configuration instructions
 
 ## Project Structure

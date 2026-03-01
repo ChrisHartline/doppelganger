@@ -274,4 +274,4 @@ The project currently operates in **text-only mode** with static image, focusing
 ---
 
 **Last Updated**: February 5, 2026  
-**Maintainer**: Chris Hartline / Ashley AI Agent
+**Maintainer**: Project Owner

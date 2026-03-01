@@ -133,7 +133,7 @@ async createEvent(
 ```javascript
 POST /grants/{grant_id}/events
 Body: {
-  calendar_id: "chris.hartline.99@gmail.com",
+  calendar_id: "your.email@gmail.com",
   title: "Meeting",
   when: { ... }
 }
@@ -141,7 +141,7 @@ Body: {
 
 #### ✅ Correct
 ```javascript
-POST /grants/{grant_id}/events?calendar_id=chris.hartline.99%40gmail.com
+POST /grants/{grant_id}/events?calendar_id=your.email%40gmail.com
 Body: {
   title: "Meeting",
   when: { ... }
@@ -389,7 +389,7 @@ export class NylasCalendarService {
 # .env
 NYLAS_API_KEY=nyk_v0_xxxxx
 NYLAS_GRANT_ID=33923ad7-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-NOTIFICATION_EMAIL=chris.hartline.99@gmail.com
+NOTIFICATION_EMAIL=your.email@example.com
 ```
 
 ### Vercel Production
@@ -400,7 +400,7 @@ Set in Dashboard → Settings → Environment Variables:
 |----------|-------|-------------|
 | NYLAS_API_KEY | nyk_v0_... | Production |
 | NYLAS_GRANT_ID | 33923ad7-... | Production |
-| NOTIFICATION_EMAIL | chris.hartline.99@gmail.com | Production |
+| NOTIFICATION_EMAIL | your.email@example.com | Production |
 
 **Important:** After adding/updating env vars, trigger a new deployment.
 
@@ -602,4 +602,4 @@ app.post('/api/calendar/book', rateLimiter, bookingHandler)
 
 **Status**: ✅ Production Ready  
 **Last Updated**: February 5, 2026  
-**Maintainer**: Chris Hartline / Ashley AI Agent
+**Maintainer**: Project Owner

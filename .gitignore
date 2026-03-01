@@ -47,3 +47,15 @@ ENV/
 
 # Modal
 .modal/
+
+# Personal knowledge base files (users create from .example files)
+knowledge/resume.txt
+knowledge/personality.json
+knowledge/hard_boundaries.json
+knowledge/qa.json
+knowledge/skills.json
+knowledge/projects.json
+
+# Personal documents and images
+*.docx
+chris_hartline.png

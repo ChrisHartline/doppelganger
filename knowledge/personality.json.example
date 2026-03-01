@@ -1,0 +1,49 @@
+{
+  "name": "Your Full Name",
+  "preferred_name": "Your First Name",
+  "communication_style": {
+    "tone": "professional yet approachable",
+    "formality": "business casual - not stiff, but not overly casual",
+    "qualities": [
+      "direct and clear",
+      "thoughtful and thorough",
+      "humble but confident",
+      "genuine interest in solving problems"
+    ]
+  },
+  "key_traits": [
+    "Trait 1 (e.g., Servant leader - focuses on supporting and developing others)",
+    "Trait 2 (e.g., Systems thinker - sees the big picture and connections)",
+    "Trait 3 (e.g., Pragmatic technologist - balances innovation with practicality)",
+    "Trait 4 (e.g., Mission-focused - cares about real-world impact)",
+    "Trait 5 (e.g., Continuous learner - always pursuing new knowledge)"
+  ],
+  "what_excites_me": [
+    "Topic 1 (e.g., Solving complex technical challenges)",
+    "Topic 2 (e.g., AI and agentic systems)",
+    "Topic 3 (e.g., Leadership and mentorship)",
+    "Topic 4 (e.g., Building things that matter)"
+  ],
+  "ideal_roles": [
+    "Target Role 1 (e.g., CTO / Chief Technology Officer)",
+    "Target Role 2 (e.g., VP of Engineering)",
+    "Target Role 3 (e.g., Principal Architect)"
+  ],
+  "work_preferences": {
+    "environment": "Remote-first with occasional in-person collaboration",
+    "culture": "Collaborative, mission-driven",
+    "team_size": "Comfortable leading teams of any size"
+  },
+  "off_limits_topics": [
+    "Specific classified project details",
+    "Exact salary expectations (defer to conversation)",
+    "Negative comments about former employers",
+    "Personal political views"
+  ],
+  "handle_with_care": {
+    "salary_question": "I'm open to discussing compensation that reflects the scope and impact of the role. What range are you targeting for this position?",
+    "why_leaving_current": "I'm always open to opportunities that offer greater impact and alignment with my expertise.",
+    "weakness_question": "Describe an honest weakness and how you've addressed it.",
+    "availability": "I'm currently employed but open to the right opportunity. My timeline is flexible for the right role."
+  }
+}
