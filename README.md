@@ -1,178 +1,158 @@
 # AI Doppelganger
 
-A digital twin application that represents you to potential employers. Features include:
+A digital twin that represents you to potential employers. Chat with recruiters and hiring managers on your behalf, qualify leads, and book meetings - all while you focus on your work.
 
-- **Conversational AI** - Powered by TinyLlama via Modal
-- **Lip-sync Video** - D-ID integration for realistic video responses (Incomplete: I was able to get it to work but it was laggy. I didn't want to pay for the "live" (?) capability. Tried HeyGen too. HeyGen is more about  video production. No real-time capability that I could find)
-- **Voice Synthesis** - ElevenLabs custom voice support (See above)
-- **Appointment Scheduling** - Nylas integration for Gmail/Calendar
-- **Qualification Flow** - Visitors must engage before booking meetings (Needs work. It's "optimistic", at this point. Qualifies most conversations. Can be altered in the system_prompt)
+## Features
+
+- **Conversational AI** - Powered by Claude (Anthropic) with full knowledge of your background
+- **Appointment Scheduling** - Nylas integration for automated Google Calendar booking with invite delivery
+- **Contact Qualification Gate** - Visitors provide contact info after 10 messages before continuing
+- **Hard Boundaries** - Configurable dealbreakers (location, compensation, role type) politely enforced automatically
+- **Static Avatar** - Display your professional photo while chatting
+- **Voice Synthesis** - ElevenLabs support (optional, currently deprioritized)
+- **Video Avatar** - D-ID / HeyGen support (optional, currently deprioritized)
 
 ## Architecture
 
 ```
 doppelganger/
 ├── frontend/          # React + Vite + shadcn/ui
-├── backend/           # Express API server
-├── modal/             # TinyLlama deployment on Modal
-└── knowledge/         # Resume, skills, Q&A training data *** THIS IS IMPORTANT. ABOUT YOU! ***
+├── backend/           # Express API server (TypeScript)
+├── modal/             # TinyLlama fallback (optional)
+└── knowledge/         # YOUR personal data — resume, skills, Q&A, boundaries
 ```
 
 ## Quick Start
 
-### 1. Configure Environment
+### 1. Set Up Knowledge Base
 
-Copy `.env.example` to `.env` and fill in your API keys:
+Copy the example files and fill in your personal information:
+
+```bash
+cd knowledge
+cp resume.txt.example resume.txt
+cp personality.json.example personality.json
+cp hard_boundaries.json.example hard_boundaries.json
+cp qa.json.example qa.json
+cp skills.json.example skills.json
+cp projects.json.example projects.json
+```
+
+See `knowledge/README.md` for detailed instructions on each file.
+
+> **This is the most important step.** The AI reads entirely from these files. The better your content, the better it represents you.
+
+### 2. Add Your Avatar
+
+Place your professional photo at:
+
+```
+frontend/public/avatar.png
+```
+
+### 3. Configure Environment
 
 ```bash
 cp .env.example .env
 ```
 
-Required API keys:
-- **DID_API_KEY** - For lip-sync video generation (https://www.d-id.com/)
-- **ELEVENLABS_API_KEY** - For voice synthesis (https://elevenlabs.io/)
-- **ELEVENLABS_VOICE_ID** - Your custom voice ID from ElevenLabs
-- **NYLAS_API_KEY** - For Gmail/Calendar integration (https://www.nylas.com/)
-- **NYLAS_GRANT_ID** - Your Nylas grant ID
+Required keys:
+- **CLAUDE_API_KEY** - Get from https://console.anthropic.com/
+- **NYLAS_API_KEY** - Get from https://dashboard.nylas.com/
+- **NYLAS_GRANT_ID** - Your connected Google account grant ID
+- **NOTIFICATION_EMAIL** - Your email to receive booking notifications
+- **LINKEDIN_URL** - Your LinkedIn profile URL (used as fallback in chat)
+- **SESSION_SECRET** - Any random string (e.g. `openssl rand -hex 32`)
+- **ADMIN_API_KEY** - Any random string to protect admin routes
 
-### 2. Set Up Knowledge Base
+Optional (for voice/video features):
+- **ELEVENLABS_API_KEY** + **ELEVENLABS_VOICE_ID** - Voice synthesis
+- **DID_API_KEY** - Lip-sync video (D-ID)
+- **HEYGEN_API_KEY** - Interactive avatar (HeyGen)
 
-Edit the files in `/knowledge/` to personalize your AI:
-
-- `resume.txt` - Your full resume content
-- `skills.json` - Array of your skills
-- `projects.json` - Array of project descriptions
-- `experience.json` - Structured work experience
-- `qa.json` - Q&A pairs for training (answer common interview questions)
-
-### 3. Upload Your Avatar
-
-Place your photo in `frontend/public/avatar.jpg` or upload via the API:
+### 4. Install and Run
 
 ```bash
-curl -X POST http://localhost:3001/api/avatar/upload \
-  -F "avatar=@your-photo.jpg"
-```
+# Install all workspaces
+npm install --workspaces
 
-### 4. Deploy TinyLlama on Modal
+# Run backend
+npm run dev --workspace=backend
 
-```bash
-cd modal
-pip install modal
-modal token new
-modal deploy app.py
-```
-
-Update `MODAL_ENDPOINT` in your `.env` with the deployed URL.
-
-### 5. Start the Application
-
-**Backend:**
-```bash
-cd backend
-npm install
-npm run dev
-```
-
-**Frontend:**
-```bash
-cd frontend
-npm install
-npm run dev
+# Run frontend (separate terminal)
+npm run dev --workspace=frontend
 ```
 
 Visit http://localhost:5173
 
-## Features
+### 5. Deploy to Vercel
 
-### Conversational Interface
-The chat interface lets visitors ask questions about your background, skills, and experience. The AI responds based on your knowledge base.
+See `DEPLOYMENT.md` for the full guide including common pitfalls.
 
-### Qualification System
-Visitors must engage in meaningful conversation before they can book an appointment. The qualification score increases as they:
-- Introduce themselves
-- Ask about your skills/experience
-- Discuss projects/achievements
-- Share what they're looking for
+## How It Works
+
+### Conversational AI
+The AI reads your knowledge base files on startup and uses them to build a dynamic system prompt. It speaks in first person as you, answers questions about your background, and enforces your hard boundaries (compensation floor, location dealbreakers, etc.).
+
+### Contact Gate
+After 10 messages, visitors are asked for their name, company, and email before continuing. This ensures you have contact info for every meaningful conversation.
 
 ### Appointment Booking
-Once qualified (70%+ score), visitors can book a meeting. Available time slots are:
-- Monday, Thursday, Friday
-- 2 PM - 5 PM
-- 30-minute slots
+Qualified visitors can book 30-minute slots on your Google Calendar. They must provide a phone number or Google Meets link. A calendar invite is automatically sent to both parties.
 
-Configure in `backend/src/services/nylas.service.ts`.
+### Hard Boundaries
+Configure dealbreakers in `knowledge/hard_boundaries.json`. The AI will politely decline and stop the conversation if:
+- A role requires relocation to a location on your hard-no list
+- Compensation is below your floor
+- Role type doesn't match your criteria
 
-### Video Responses
-When D-ID is configured, the AI generates lip-sync videos of your avatar speaking the responses.
+## Customization
+
+### Qualification Logic
+Edit `backend/src/services/llm.service.ts` → `calculateQualificationScore()`
+
+### Available Time Slots
+Edit `backend/src/services/nylas.service.ts`:
+- `AVAILABLE_DAYS` - Days of week (1=Mon, 4=Thu, 5=Fri)
+- `AVAILABLE_HOURS` - `{ start: 9, end: 17 }` (24hr)
+- `SLOT_DURATION_MINUTES` - Default 30
+
+### Contact Gate Threshold
+Edit `backend/src/routes/chat.routes.ts` → `isAtMessageLimit(sessionId, 10)` — change `10` to any number.
+
+### System Prompt
+The system prompt is fully dynamic and built from your knowledge files. To tweak behavior, edit `backend/src/services/llm.service.ts` → `buildSystemPrompt()`.
 
 ## API Endpoints
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
+| `/api/chat/session` | POST | Create a new chat session |
 | `/api/chat` | POST | Send message, get AI response |
-| `/api/video/generate` | POST | Generate lip-sync video |
 | `/api/calendar/slots` | GET | Get available time slots |
 | `/api/calendar/book` | POST | Book an appointment |
+| `/api/contact` | POST | Submit visitor contact info |
 | `/api/profile` | GET | Get profile information |
-| `/api/profile/resume` | POST | Update resume content |
-| `/api/profile/qa` | POST | Add Q&A training pair |
-| `/api/avatar/upload` | POST | Upload avatar image |
-
-## Training Your Doppelganger
-
-### Adding Q&A Pairs
-Add question-answer pairs to improve responses:
-
-```bash
-curl -X POST http://localhost:3001/api/profile/qa \
-  -H "Content-Type: application/json" \
-  -d '{
-    "question": "What is your management style?",
-    "answer": "I believe in servant leadership..."
-  }'
-```
-
-### Updating Skills
-```bash
-curl -X POST http://localhost:3001/api/profile/skills \
-  -H "Content-Type: application/json" \
-  -d '{
-    "skills": ["JavaScript", "Python", "React", "Node.js"]
-  }'
-```
-
-## Creating Your ElevenLabs Voice
-
-1. Go to https://elevenlabs.io/
-2. Create an account
-3. Navigate to "Voice Lab"
-4. Click "Add Generative or Cloned Voice"
-5. Upload audio samples of your voice (minimum 1 minute recommended)
-6. Copy the Voice ID and add it to your `.env`
-
-## Customization
-
-### Qualification Criteria
-Edit `backend/src/services/llm.service.ts` - `calculateQualificationScore()` method.
-
-### Available Time Slots
-Edit `backend/src/services/nylas.service.ts`:
-- `AVAILABLE_DAYS` - Days of the week (0=Sunday)
-- `AVAILABLE_HOURS` - Start and end hours
-- `SLOT_DURATION_MINUTES` - Meeting length
-
-### System Prompt
-Edit `backend/src/services/llm.service.ts` - `buildSystemPrompt()` method.
+| `/api/profile/resume` | POST | Update resume (admin) |
+| `/api/profile/skills` | POST | Update skills (admin) |
+| `/api/avatar/upload` | POST | Upload avatar image (admin) |
 
 ## Tech Stack
 
-- **Frontend**: React, Vite, shadcn/ui, Tailwind CSS
-- **Backend**: Express, TypeScript
-- **LLM**: TinyLlama 1.1B on Modal
-- **Video**: D-ID
-- **Voice**: ElevenLabs
-- **Calendar/Email**: Nylas
+- **Frontend**: React, Vite, TypeScript, shadcn/ui, Tailwind CSS
+- **Backend**: Express, TypeScript, Node.js
+- **LLM**: Claude (Anthropic) — claude-sonnet model
+- **Calendar**: Nylas v3 API → Google Calendar
+- **Deployment**: Vercel (frontend static + backend serverless)
+- **Voice** *(optional)*: ElevenLabs
+- **Video** *(optional)*: D-ID or HeyGen
+
+## Key Documentation
+
+- `DEPLOYMENT.md` - Vercel deployment guide and troubleshooting
+- `NYLAS_INTEGRATION.md` - Nylas calendar integration details and lessons learned
+- `API_KEYS_GUIDE.md` - Where to get every API key and estimated costs
+- `knowledge/README.md` - How to fill in your personal knowledge base
 
 ## License
 
