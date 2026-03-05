@@ -3,10 +3,10 @@
 A digital twin application that represents you to potential employers. Features include:
 
 - **Conversational AI** - Powered by TinyLlama via Modal
-- **Lip-sync Video** - D-ID integration for realistic video responses
-- **Voice Synthesis** - ElevenLabs custom voice support
+- **Lip-sync Video** - D-ID integration for realistic video responses (Incomplete: I was able to get it to work but it was laggy. I didn't want to pay for the "live" (?) capability. Tried HeyGen too. HeyGen is more about  video production. No real-time capability that I could find)
+- **Voice Synthesis** - ElevenLabs custom voice support (See above)
 - **Appointment Scheduling** - Nylas integration for Gmail/Calendar
-- **Qualification Flow** - Visitors must engage before booking meetings
+- **Qualification Flow** - Visitors must engage before booking meetings (Needs work. It's "optimistic", at this point. Qualifies most conversations. Can be altered in the system_prompt)
 
 ## Architecture
 
@@ -15,7 +15,7 @@ doppelganger/
 ├── frontend/          # React + Vite + shadcn/ui
 ├── backend/           # Express API server
 ├── modal/             # TinyLlama deployment on Modal
-└── knowledge/         # Resume, skills, Q&A training data
+└── knowledge/         # Resume, skills, Q&A training data *** THIS IS IMPORTANT. ABOUT YOU! ***
 ```
 
 ## Quick Start
